@@ -10,6 +10,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap"
         rel="stylesheet">
+    <!-- EmailJS for contact form (optional - use Formspree instead) -->
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script> -->
     <style>
         :root {
             --primary: #6A0572;
@@ -326,7 +328,7 @@
         }
 
         .hero h1 {
-            font-size: 3.8rem;
+            font-size: clamp(2rem, 5vw, 3.8rem);
             margin-bottom: 20px;
             color: var(--dark);
             font-weight: 800;
@@ -338,7 +340,7 @@
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
             color: var(--gray);
             margin-bottom: 40px;
             transform: translateY(20px);
@@ -421,13 +423,20 @@
         }
 
         .section-title h2 {
-            font-size: 2.8rem;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             color: var(--dark);
             position: relative;
             display: inline-block;
             margin-bottom: 20px;
             font-weight: 800;
             font-family: 'Montserrat', sans-serif;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 30px auto 0;
+            font-size: clamp(0.9rem, 2vw, 1.15rem);
         }
 
         .section-title h2::after {
@@ -485,7 +494,7 @@
         }
 
         .about-text h3 {
-            font-size: 2rem;
+            font-size: clamp(1.3rem, 3vw, 2rem);
             margin-bottom: 25px;
             color: var(--dark);
             font-weight: 700;
@@ -494,25 +503,26 @@
         .about-text p {
             margin-bottom: 25px;
             color: var(--gray);
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             line-height: 1.8;
         }
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            margin: 35px 0;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            padding: 15px;
+            padding: 12px;
             background: rgba(106, 5, 114, 0.05);
             /* Primary color with transparency */
-            border-radius: 10px;
+            border-radius: 8px;
             transition: var(--transition);
+            gap: 12px;
         }
 
         .info-item:hover {
@@ -661,8 +671,8 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 35px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
             margin-top: 50px;
         }
 
@@ -676,6 +686,8 @@
             transform: translateY(30px);
             position: relative;
             border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card.in-view {
@@ -690,9 +702,10 @@
         }
 
         .project-img {
-            height: 240px;
+            height: 200px;
             overflow: hidden;
             position: relative;
+            flex-shrink: 0;
         }
 
         .project-img::before {
@@ -724,45 +737,63 @@
         }
 
         .project-content {
-            padding: 30px;
+            padding: 25px;
             position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-content h3 {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: var(--primary);
-            font-size: 1.6rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
+            line-height: 1.3;
         }
 
         .project-content h3::before {
             content: '🚀';
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+        }
+
+        .project-content p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .project-content h3::before {
+            content: '🚀';
+            font-size: 1.2rem;
         }
 
         .project-content p {
             color: var(--gray);
             margin-bottom: 20px;
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            flex-grow: 1;
         }
 
         .tech-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 25px;
+            gap: 6px;
+            margin-bottom: 20px;
         }
 
         .tech-tag {
             background: linear-gradient(135deg, rgba(106, 5, 114, 0.08), rgba(233, 30, 99, 0.08));
             color: var(--primary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
             font-weight: 600;
             transition: var(--transition);
             border: 1px solid rgba(106, 5, 114, 0.2);
@@ -771,15 +802,15 @@
         .tech-tag:hover {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 5px 15px rgba(106, 5, 114, 0.3);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 3px 10px rgba(106, 5, 114, 0.3);
         }
 
         .project-links {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-top: 5px;
+            margin-top: auto;
         }
 
         .project-links a {
@@ -788,11 +819,11 @@
             font-weight: 700;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             position: relative;
@@ -866,6 +897,49 @@
             transform: scale(1.2) rotate(5deg);
         }
 
+        .more-projects-cta {
+            margin-top: 30px;
+            padding: 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(106, 5, 114, 0.1), rgba(233, 30, 99, 0.1));
+            border: 1px solid rgba(106, 5, 114, 0.2);
+            text-align: center;
+        }
+
+        .more-projects-cta p {
+            margin-bottom: 14px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .more-projects-cta .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .high-priority-project {
+            border-color: rgba(233, 30, 99, 0.45);
+            box-shadow: 0 14px 35px rgba(233, 30, 99, 0.2);
+        }
+
+        .high-priority-project::after {
+            content: 'High Priority';
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: linear-gradient(135deg, #e91e63, #ff7043);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            z-index: 2;
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.35);
+        }
+
         /* Skills Section - Modern Grid with Icons */
         .skills-section {
             background: linear-gradient(135deg, #f8f0fc 0%, #e8d9f2 50%, #f3e5f5 100%);
@@ -886,16 +960,16 @@
 
         .skills-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
             position: relative;
             z-index: 1;
         }
 
         .skill-category {
             background: white;
-            padding: 35px;
-            border-radius: 20px;
+            padding: 25px;
+            border-radius: 15px;
             box-shadow: 0 10px 40px rgba(106, 5, 114, 0.1);
             transition: var(--transition);
             opacity: 0;
@@ -934,17 +1008,17 @@
         }
 
         .skill-category h3 {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 15px;
-            font-size: 1.5rem;
+            gap: 12px;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             font-weight: 700;
         }
 
         .skill-category h3 i {
-            font-size: 2rem;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
             background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1093,7 +1167,7 @@
             align-items: flex-start;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
         }
 
         .experience-company {
@@ -1111,13 +1185,14 @@
         }
 
         .experience-date {
-            background: linear-gradient(135deg, rgba(106, 5, 114, 0.1), rgba(233, 30, 99, 0.1));
-            color: var(--primary);
+            position: absolute;
+            top: 30px;
+            background: var(--primary);
+            color: white;
             padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border: 2px solid rgba(106, 5, 114, 0.2);
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(106, 5, 114, 0.3);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1125,6 +1200,14 @@
 
         .experience-date::before {
             content: '📅';
+        }
+
+        .experience-item:nth-child(odd) .experience-date {
+            right: calc(100% + 75px);
+        }
+
+        .experience-item:nth-child(even) .experience-date {
+            left: calc(100% + 75px);
         }
 
         .experience-role {
@@ -1171,6 +1254,75 @@
             font-size: 1.2rem;
         }
 
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .experience-company {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .experience-company::before {
+            content: '🏢';
+            font-size: 1.2rem;
+        }
+
+        .experience-date {
+            background: linear-gradient(135deg, rgba(106, 5, 114, 0.1), rgba(233, 30, 99, 0.1));
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 2px solid rgba(106, 5, 114, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .experience-date::before {
+            content: '📅';
+        }
+
+        .experience-role {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .experience-role::before {
+            content: '💼';
+            font-size: 1rem;
+        }
+
+        .experience-item p {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .experience-item ul {
+            margin-top: 15px;
+        }
+
+        .experience-item ul li {
+            margin-bottom: 10px;
+        }
+
         /* Contact Section */
         .contact-section {
             background: linear-gradient(135deg, #E8D9F2 0%, #F3E5F5 100%);
@@ -1179,24 +1331,24 @@
 
         .contact-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
         }
 
         .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
             transition: var(--transition);
         }
 
@@ -1475,6 +1627,14 @@
                 width: 95%;
                 padding: 0 15px;
             }
+
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            .skills-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
         }
 
         @media (max-width: 992px) {
@@ -1504,12 +1664,13 @@
             }
 
             .skills-container {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 30px;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 25px;
             }
 
             .projects-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 30px;
             }
 
             .contact-container {
@@ -1518,11 +1679,21 @@
             }
 
             .contact-info {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+
+            .contact-item {
+                padding: 20px;
+                gap: 15px;
             }
         }
 
         @media (max-width: 768px) {
+            section {
+                padding: 80px 0;
+            }
+
             .nav-links {
                 display: none;
                 position: absolute;
@@ -1586,7 +1757,7 @@
 
             .info-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 12px;
             }
 
             .skills-container {
@@ -1601,8 +1772,21 @@
                 margin: 0;
             }
 
+            .project-content {
+                padding: 20px;
+            }
+
             .contact-info {
                 grid-template-columns: 1fr;
+            }
+
+            .contact-item {
+                padding: 18px;
+                gap: 12px;
+            }
+
+            .contact-form {
+                padding: 30px;
             }
 
             .footer-content {
@@ -1613,11 +1797,173 @@
                 flex-direction: column;
                 gap: 15px;
             }
+
+            /* Experience Timeline Mobile */
+            .experience-timeline {
+                padding-left: 50px;
+            }
+
+            .experience-timeline::before {
+                left: 15px;
+                width: 3px;
+            }
+
+            .experience-item {
+                padding: 25px;
+                margin-bottom: 35px;
+            }
+
+            .experience-item::before {
+                left: -42px;
+                top: 30px;
+                width: 20px;
+                height: 20px;
+                border-width: 3px;
+            }
+
+            .experience-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .experience-date {
+                position: relative;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                margin-bottom: 10px;
+                display: inline-block;
+                align-self: flex-start;
+            }
+
+            .experience-company {
+                font-size: 1.3rem;
+            }
+
+            .experience-role {
+                font-size: 1.1rem;
+            }
+
+            .experience-item p {
+                font-size: 0.95rem;
+                margin-bottom: 12px;
+            }
+
+            .experience-item ul {
+                margin-top: 12px;
+            }
+
+            .experience-item ul li {
+                margin-bottom: 10px;
+            }
+
+            /* Simplified hover on mobile */
+            .experience-item:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 10px 0;
+            margin-left: 0;
+            text-align: center;
+        }
+
+        .mobile-menu {
+            display: block;
+        }
+
+        .hero {
+            padding: 150px 0 80px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            margin: 10px;
+        }
+
+        .btn-outline {
+            margin-left: 0;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+        }
+
+        .section-title p {
+            font-size: 1rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.6rem;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .skills-container {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .skill-category h3 {
+            font-size: 1.3rem;
+        }
+
+        .project-card {
+            margin: 0;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .contact-info {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .contact-item {
+            padding: 18px;
+            gap: 12px;
+        }
+
+        .contact-form {
+            padding: 30px;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-links {
+            flex-direction: column;
+            gap: 15px;
+        }
         }
 
         @media (max-width: 480px) {
+            section {
+                padding: 60px 0;
+            }
+
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .hero p {
@@ -1625,12 +1971,20 @@
             }
 
             .btn {
-                padding: 10px 20px;
+                padding: 10px 18px;
                 font-size: 0.9rem;
+                margin: 8px auto;
+                display: block;
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .btn-outline {
+                margin-left: 0;
             }
 
             .section-title h2 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
 
             .container {
@@ -1638,20 +1992,127 @@
             }
 
             .about-content {
-                gap: 30px;
+                gap: 25px;
             }
 
             .contact-container {
                 gap: 30px;
             }
 
-            /* Override inline grid styles for small screens */
-            .hero .hero-content div[style*="grid-template-columns"] {
-                grid-template-columns: 1fr !important;
+            .contact-form {
+                padding: 20px;
             }
 
-            section .container div[style*="grid-template-columns"] {
+            .form-control {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .submit-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .project-img {
+                height: 180px;
+            }
+
+            .project-links a {
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .experience-item {
+                padding: 25px;
+                margin-bottom: 30px;
+            }
+
+            .experience-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .experience-company {
+                font-size: 1.2rem;
+            }
+
+            .experience-role {
+                font-size: 1.1rem;
+            }
+
+            /* Mobile timeline adjustments */
+            .experience-timeline {
+                padding-left: 35px;
+            }
+
+            .experience-timeline::before {
+                left: 8px;
+                width: 3px;
+            }
+
+            .experience-item::before {
+                left: -32px;
+                width: 18px;
+                height: 18px;
+                top: 26px;
+                border-width: 3px;
+            }
+        }
+
+        /* Extra small devices (320px - 479px) */
+        @media (max-width: 360px) {
+
+            /* Force single column for all inline grids */
+            .hero .hero-content div[style*="grid-template-columns"],
+            #services .container div[style*="grid-template-columns"],
+            #about .about-text div[style*="grid-template-columns"] {
                 grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            /* Reduce timeline left padding on extra small screens */
+            .experience-timeline {
+                padding-left: 30px;
+            }
+
+            .experience-timeline::before {
+                left: 6px;
+                width: 2px;
+            }
+
+            .experience-item::before {
+                left: -26px;
+                width: 16px;
+                height: 16px;
+                top: 22px;
+                border-width: 2px;
+            }
+
+            /* Reduce padding on inline card containers */
+            .hero div[style*="padding: 25px"],
+            .skills-section div[style*="padding: 25px"] {
+                padding: 20px !important;
+            }
+
+            /* Smaller text on hero elements */
+            .hero p[style*="font-size: 1.5rem"] {
+                font-size: 1.2rem !important;
+            }
+
+            .hero p[style*="font-size: 1.2rem"] {
+                font-size: 1rem !important;
+            }
+
+            /* Stack buttons on hero */
+            .hero>.container>.hero-content>div:last-child {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero>.container>.hero-content>div:last-child a {
+                width: 100%;
+                max-width: 220px;
             }
         }
     </style>
@@ -1738,7 +2199,7 @@
             </div>
             <div class="about-content">
                 <div class="about-img">
-                    <img src="photo.jpg" alt="P Sumanth Reddy">
+                    <img src="photo.png" alt="P Sumanth Reddy">
                 </div>
                 <div class="about-text">
                     <h3>🎯 Why Businesses Choose Me</h3>
@@ -1963,136 +2424,55 @@
             </div>
         </div>
     </section>
-
     <!-- Projects Section -->
     <section id="projects">
         <div class="container">
             <div class="section-title">
-                <h2>AI Projects Portfolio</h2>
-                <p>Real-world AI implementations and intelligent systems</p>
+                <h2>Projects</h2>
+                <p>Video content projects and platform walkthroughs</p>
+            </div>
+            <div class="projects-grid" id="video-highlights-grid"></div>
+            <div class="section-title" style="margin-top: 40px;">
+                <h2>Project Deep Dives</h2>
+                <p>Detailed pages for core builds and implementation breakdowns</p>
             </div>
             <div class="projects-grid">
-                <!-- New Project 1: AI Code Editor -->
                 <div class="project-card">
-                    <div class="project-img">
-                        <img src="Ai_code_editor.png" alt="AI Code Editor System">
-                    </div>
                     <div class="project-content">
                         <h3>AI Code Editor</h3>
-                        <p>Intelligent web-based IDE with real-time AI code generation, instant execution across
-                            multiple languages, and smart debugging. Features live syntax analysis, automated code
-                            suggestions, and seamless deployment workflows—reducing development time by 40% and
-                            eliminating context switching.</p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">HTML</span>
-                            <span class="tech-tag">Tailwind CSS</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Flask</span>
-                            <span class="tech-tag">AI</span>
-                            <span class="tech-tag">Code Analysis</span>
-                            <span class="tech-tag">Code Generation</span>
-                        </div>
+                        <p>Architecture, feature flow, execution pipeline, and implementation details.</p>
                         <div class="project-links">
-                            <a href="AI_Code_Editor.html"><i class="fas fa-info-circle"></i>Project Info</a>
-                            <a href="https://github.com/sumanth-ds/AI-Code-Editor"><i class="fab fa-github"></i>GitHub
-                                Link</a>
+                            <a href="AI_Code_Editor.html"><i class="fas fa-info-circle"></i>Project Details</a>
                         </div>
-
                     </div>
                 </div>
-
-                <!-- New Project 2: Multi-Tool AI Chatbot Backend -->
                 <div class="project-card">
-                    <div class="project-img">
-                        <img src="agentic_ai_chatbot.png" alt="Multi-Tool AI Chatbot Backend">
-                    </div>
                     <div class="project-content">
                         <h3>Agentic-AI Chatbot</h3>
-                        <p>Multi-agent AI system powered by LangChain and Groq that autonomously researches, analyzes
-                            financial data, and delivers contextual insights. Integrates academic research (Arxiv),
-                            encyclopedic knowledge (Wikipedia), live web search (Tavily), and real-time stock tracking
-                            (Yahoo Finance)—enabling 24/7 intelligent decision support.</p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Flask</span>
-                            <span class="tech-tag">LangChain</span>
-                            <span class="tech-tag">LangGraph</span>
-                            <span class="tech-tag">Groq</span>
-                            <span class="tech-tag">Arxiv API</span>
-                            <span class="tech-tag">Wikipedia API</span>
-                            <span class="tech-tag">Tavily Search API</span>
-                            <span class="tech-tag">yfinance</span>
-                        </div>
+                        <p>Multi-agent orchestration, tool integrations, and production-ready design notes.</p>
                         <div class="project-links">
-                            <a href="https://sumanth-agentic-ai-bot.onrender.com/"><i class="fas fa-rocket"></i>Live
-                                Demo (Render)</a>
-                            <a href="https://multi-model-agentic-ai.streamlit.app/"><i class="fas fa-rocket"></i>Live
-                                Demo (Streamlit)</a>
-                            <a href="agentic-AI-Chatbot.html"><i class="fas fa-info-circle"></i>Project Info</a>
-                            <a href="https://github.com/sumanth-ds/Agentic-AI-Chatbot"><i
-                                    class="fab fa-github"></i>GitHub Link</a>
+                            <a href="agentic-AI-Chatbot.html"><i class="fas fa-info-circle"></i>Project Details</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Existing Project 1: Generative Conversational Chatbot -->
-                <!-- <div class="project-card">
-                    <div class="project-img">
-                        <img src="multi_chat_bot_dark.png" alt="Generative Conversational Chatbot">
-                    </div>
+                <div class="project-card">
                     <div class="project-content">
-                        <h3>RAG-Powered Multi-Source Chatbot</h3>
-                        <p>Enterprise-grade conversational AI with Retrieval-Augmented Generation enabling instant
-                            insights from CSVs, PDFs, and web URLs. Leverages Google Gemini and Meta Llama models with
-                            FAISS vector embeddings to achieve 95% query accuracy. Transforms unstructured data into
-                            actionable intelligence—perfect for customer support, document analysis, and knowledge
-                            management.</p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">APIs</span>
-                            <span class="tech-tag">Natural Language Processing (NLP)</span>
-                            <span class="tech-tag">Machine Learning</span>
-                            <span class="tech-tag">Data Retrieval</span>
-                            <span class="tech-tag">Streamlit</span>
-                        </div>
+                        <h3>RAG Multi-Source Chatbot</h3>
+                        <p>Retrieval pipeline, vector search setup, and contextual response engineering.</p>
                         <div class="project-links">
-                            <a href="https://sumanth-ai-chatbot.streamlit.app/"><i class="fas fa-rocket"></i>Live
-                                Demo</a>
-                            <a href="Multi-Chatbot-rag-plus-AI.html"><i class="fas fa-info-circle"></i>Project Info</a>
-                            <a href="https://github.com/sumanth-ds/Multi-Chatbot-RAG"><i
-                                    class="fab fa-github"></i>GitHub Link</a>
+                            <a href="Multi-Chatbot-rag-plus-AI.html"><i class="fas fa-info-circle"></i>Project Details</a>
                         </div>
                     </div>
-                </div> -->
-                <!-- Existing Project 2: AI-Powered Code Debugging Assistant -->
-                <!-- <div class="project-card">
-                    <div class="project-img">
-                        <img src="https://cdn-na.mynilead.com/1bfa3120d5534256b3bf17c37565c435/assets/img/a-beginners-guide-to-ai-tools-for-debugging-and-optimizing-your-website-code_1697597079_medium.jpg"
-                            alt="AI-Powered Code Debugging Assistant">
-                    </div>
-                    <div class="project-content">
-                        <h3>AI Code Debugging Assistant</h3>
-                        <p>Smart debugging tool powered by Google Gemini AI that automatically detects bugs, explains
-                            errors in plain English, and suggests optimized code fixes. Streamlines the debugging
-                            workflow from hours to minutes—boosting developer velocity by 60% while improving code
-                            quality and maintainability.</p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Streamlit</span>
-                            <span class="tech-tag">Gemini AI</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Natural Language Processing (NLP)</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://sumanth-code-debug.streamlit.app/"><i class="fas fa-rocket"></i>Live
-                                Demo</a>
-                            <a href="https://github.com/sumanth-ds/AI-Code-Debug"><i class="fab fa-github"></i>GitHub
-                                Link</a>
-                        </div>
-                    </div>
-                </div> -->
+                </div>
+            </div>
+            <div class="more-projects-cta">
+                <p>Want to explore more of my work?</p>
+                <a href="https://github.com/sumanth-ds?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn">
+                    <i class="fas fa-folder-open"></i>See More Projects
+                </a>
             </div>
         </div>
     </section>
-
     <!-- Skills Section - Commented out for freelancer portfolio focus (shown through projects instead) -->
     <!--
     <section id="skills" class="skills-section">
@@ -2357,24 +2737,44 @@
                     </div> -->
                 </div>
                 <div class="contact-form">
-                    <form>
+                    <!-- 
+                        SETUP REQUIRED - Contact Form Configuration
+                        -------------------------------------------------
+                        Option 1: Formspree (Recommended - FREE)
+                        1. Go to https://formspree.io/ and sign up
+                        2. Create a new form
+                        3. Copy your form ID (e.g., "xyzabc123")
+                        4. Replace "YOUR_FORM_ID" in line 2779 with your form ID
+                        5. Set the form's "Receive emails at" to: sumanth3633@gmail.com
+                        
+                        Option 2: Mailto fallback (already configured)
+                        - Works without any setup but opens user's email client
+                        - To use only mailto, change form action to "mailto:sumanth3633@gmail.com"
+                    -->
+                    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" id="name" class="form-control" placeholder="Your Name">
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" class="form-control" placeholder="Your Email">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
-                            <input type="text" id="subject" class="form-control" placeholder="Subject">
+                            <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject" required>
                         </div>
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea id="message" class="form-control" placeholder="Your Message"></textarea>
+                            <textarea id="message" name="message" class="form-control" placeholder="Your Message" rows="5" required></textarea>
                         </div>
-                        <button type="submit" class="submit-btn">Send Message</button>
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            <span id="btn-text">Send Message</span>
+                            <span id="btn-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Sending...
+                            </span>
+                        </button>
+                        <div id="form-status" style="display: none; margin-top: 15px; text-align: center;"></div>
                     </form>
                 </div>
             </div>
@@ -2495,6 +2895,114 @@
             timelineObserver.observe(item);
         });
 
+        const videoFiles = [
+            'codingPractices.mp4',
+            'interviewPractices.mp4',
+            'bulkmailAutomation.mp4'
+        ];
+
+        const captionLibrary = {
+            codingPractices: {
+                title: 'Excited to Launch My Coding Practice Platform!',
+                intro: 'I have been working on something close to my heart: a platform designed to help learners and developers practice coding across multiple programming and scripting languages in one place.',
+                points: [
+                    'Practice coding in C, C++, Java, Python, JavaScript, and more',
+                    'Support for scripting languages for real-world problem solving',
+                    'Interactive coding environment with instant feedback',
+                    'Challenges from beginner to advanced levels',
+                    'Clean, user-friendly interface focused on learning',
+                    'Built for students, job seekers, and developers'
+                ],
+                closing: 'I built this to create a space where learning is not just theory, but consistent hands-on practice that prepares people for real-world coding and problem solving.'
+            },
+            interviewPractices: {
+                title: 'Built an Interview Practice Platform for Real Preparation!',
+                intro: 'This platform helps learners move from concept understanding to interview-ready execution through realistic preparation flows.',
+                points: [
+                    'Practice technical interview questions by topic and difficulty',
+                    'Timed sessions to simulate real interview pressure',
+                    'Structured feedback to improve answer quality',
+                    'Focus areas covering DSA, core CS, and problem-solving',
+                    'Designed for students and professionals preparing for placements'
+                ],
+                closing: 'The goal is simple: make interview preparation practical, measurable, and consistent.'
+            },
+            bulkmailAutomation: {
+                title: 'Bulk Mail Automation Platform Ready for Scale!',
+                intro: 'I built this workflow to simplify high-volume outreach while keeping communication personalized and trackable.',
+                points: [
+                    'Send bulk emails with dynamic personalization fields',
+                    'Template-driven campaigns for faster execution',
+                    'Automation-ready scheduling and batch delivery flow',
+                    'Clean process for maintaining audience and message quality',
+                    'Designed for business communication and growth operations'
+                ],
+                closing: 'This helps teams save time, reduce manual effort, and run outreach with more consistency.'
+            }
+        };
+
+        function toTitleFromFile(fileName) {
+            const base = fileName.replace(/\.[^/.]+$/, '');
+            const spaced = base.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[-_]+/g, ' ');
+            return spaced
+                .split(' ')
+                .filter(Boolean)
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        function getCaptionByFile(fileName) {
+            const key = fileName.replace(/\.[^/.]+$/, '');
+            if (captionLibrary[key]) {
+                return captionLibrary[key];
+            }
+            const readableTitle = toTitleFromFile(fileName);
+            return {
+                title: `${readableTitle} Demo Published!`,
+                intro: `A quick walkthrough of my ${readableTitle.toLowerCase()} workflow and implementation.`,
+                points: [
+                    'Real-world implementation flow',
+                    'Clean interface and practical execution',
+                    'Built to improve productivity and outcomes'
+                ],
+                closing: 'Focused on solving practical problems with simple and scalable execution.'
+            };
+        }
+
+        function renderVideoHighlights() {
+            const grid = document.getElementById('video-highlights-grid');
+            if (!grid) return;
+
+            const cardsHtml = videoFiles.map(fileName => {
+                const caption = getCaptionByFile(fileName);
+                const bulletItems = caption.points.map(point => `<li>${point}</li>`).join('');
+                return `
+                    <article class="project-card high-priority-project">
+                        <div class="project-img">
+                            <video controls preload="metadata" style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="${fileName}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="project-content">
+                            <h3>${caption.title}</h3>
+                            <p>${caption.intro}</p>
+                            <div class="tech-tags" style="display:block;">
+                                <ul style="padding-left: 20px; margin: 0; color: var(--gray);">
+                                    ${bulletItems}
+                                </ul>
+                            </div>
+                            <p style="margin-top: 14px;">${caption.closing}</p>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            grid.innerHTML = cardsHtml;
+        }
+
+        renderVideoHighlights();
+
         // Project card animations
         const projectCards = document.querySelectorAll('.project-card');
         const cardObserver = new IntersectionObserver((entries) => {
@@ -2543,41 +3051,86 @@
             experienceObserver.observe(item);
         });
 
-        // Form submission
-        const contactForm = document.querySelector('.contact-form form');
+        // Form submission - Uses Formspree (free form backend)
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnLoading = document.getElementById('btn-loading');
+        const formStatus = document.getElementById('form-status');
+
         if (contactForm) {
-            contactForm.addEventListener('submit', function (e) {
+            contactForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
-                // Custom message box instead of alert()
-                const messageBox = document.createElement('div');
-                messageBox.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1001; text-align: center; font-family: Poppins, sans-serif; color: var(--dark); font-size: 1.1rem; max-width: 350px; width: 90%;';
-                messageBox.innerHTML = `
-                    <p>Thank you for your message! I will get back to you soon.</p>
-                    <button>OK</button>
-                `;
-                messageBox.querySelector('p').style.marginBottom = '20px';
-                document.body.appendChild(messageBox);
 
-                const button = messageBox.querySelector('button');
-                button.style.cssText = 'background-color: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;';
-                button.addEventListener('mouseover', () => {
-                    button.style.backgroundColor = 'var(--primary-dark)';
-                });
-                button.addEventListener('mouseout', () => {
-                    button.style.backgroundColor = 'var(--primary)';
-                });
-                button.addEventListener('click', () => {
-                    document.body.removeChild(messageBox);
-                });
+                // Show loading state
+                submitBtn.disabled = true;
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'inline';
+                formStatus.style.display = 'none';
 
-                this.reset();
-            });
-        }
-    </script>
+                // Get form data
+                const formData = new FormData(contactForm);
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    subject: formData.get('subject'),
+                    message: formData.get('message')
+                };
+
+                try {
+                    // Option 1: Use Formspree (free, no backend needed)
+                    // Sign up at https://formspree.io/ and replace FORM_ID
+                    const formspreeResponse = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            ...data,
+                            reply_to: data.email,
+                            _subject: `Portfolio Contact: ${data.subject}`
+                        })
+                    });
+
+                    if (formspreeResponse.ok) {
+                        formStatus.innerHTML = `
+                            <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; border: 1px solid #c3e6cb;">
+                                <i class="fas fa-check-circle"></i> Message sent successfully! I'll get back to you soon.
+                            </div>
+                        `;
+                        formStatus.style.display = 'block';
+                        contactForm.reset();
+                    } else {
+                        throw new Error('Formspree failed');
+                    }
+
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    // Fallback: Open default email client
+                    const mailtoLink = `mailto:sumanth3633@gmail.com?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`)}`;
+
+                    formStatus.innerHTML = `
+                        <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; border: 1px solid #ffeaa7; margin-bottom: 20px;">
+                            <i class="fas fa-info-circle"></i> Form service unavailable. Opening your email client to send the message...
+                        </div>
+                    `;
+                    formStatus.style.display = 'block';
+
+                    // Open email client after brief delay
+                    setTimeout(() => {
+                        window.location.href = mailtoLink;
+                    }, 1500);
+                } finally {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    btnLoading.style.display = 'none';
+                 }
+             });
+         }
+     </script>
 </body>
 
 
 </html>
-
-
 

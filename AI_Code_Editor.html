@@ -64,39 +64,85 @@
         .copy-feedback {
             transition: opacity 0.5s;
         }
+
+        /* Responsive Tech Stack Icons */
+        #tech-stack-container .text-4xl,
+        #tech-stack-container .fa-4x {
+            font-size: 1.75rem !important;
+        }
+
+        @media (min-width: 768px) {
+            #tech-stack-container .text-4xl,
+            #tech-stack-container .fa-4x {
+                font-size: 2.25rem !important;
+            }
+        }
+
+        /* Larger touch targets for demo buttons on mobile */
+        @media (max-width: 480px) {
+            #demo-analyze, #demo-run {
+                padding: 0.75rem 1rem !important;
+                font-size: 0.875rem !important;
+            }
+
+            /* Full-width hero CTA buttons on mobile */
+            #hero .flex a {
+                display: block;
+                width: 100%;
+                max-width: 280px;
+                margin: 8px auto !important;
+            }
+        }
     </style>
 </head>
 
 <body class="bg-stone-50 text-stone-800">
 
-    <!-- Header & Navigation -->
-    <header id="header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-xl font-bold text-indigo-600 flex items-center"><i
-                            class="fa-solid fa-brain mr-2"></i> AI Code Editor</span>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#features"
-                            class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Features</a>
-                        <a href="#tech-stack"
-                            class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Tech
-                            Stack</a>
-                        <a href="#setup"
-                            class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Setup
-                            Guide</a>
-                        <a href="#demo"
-                            class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Usage
-                            Demo</a>
-                        <a href="#faq"
-                            class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+     <!-- Header & Navigation -->
+     <header id="header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="flex items-center justify-between h-16">
+                 <div class="flex items-center">
+                     <span class="text-xl font-bold text-indigo-600 flex items-center"><i
+                             class="fa-solid fa-brain mr-2"></i> AI Code Editor</span>
+                 </div>
+                 <!-- Desktop Navigation -->
+                 <div class="hidden md:block">
+                     <div class="ml-10 flex items-baseline space-x-4">
+                         <a href="#features"
+                             class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                         <a href="#tech-stack"
+                             class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Tech
+                             Stack</a>
+                         <a href="#setup"
+                             class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Setup
+                             Guide</a>
+                         <a href="#demo"
+                             class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">Usage
+                             Demo</a>
+                         <a href="#faq"
+                             class="text-stone-600 hover:bg-stone-200 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
+                     </div>
+                 </div>
+                 <!-- Mobile Menu Button -->
+                 <div class="md:hidden">
+                     <button id="mobile-menu-btn" class="text-stone-600 hover:text-stone-900 focus:outline-none">
+                         <i class="fas fa-bars text-2xl"></i>
+                     </button>
+                 </div>
+             </div>
+             <!-- Mobile Navigation Menu -->
+             <div id="mobile-menu" class="md:hidden hidden">
+                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm shadow-lg">
+                     <a href="#features" class="block px-3 py-2 text-stone-600 hover:bg-stone-100 rounded-md">Features</a>
+                     <a href="#tech-stack" class="block px-3 py-2 text-stone-600 hover:bg-stone-100 rounded-md">Tech Stack</a>
+                     <a href="#setup" class="block px-3 py-2 text-stone-600 hover:bg-stone-100 rounded-md">Setup Guide</a>
+                     <a href="#demo" class="block px-3 py-2 text-stone-600 hover:bg-stone-100 rounded-md">Usage Demo</a>
+                     <a href="#faq" class="block px-3 py-2 text-stone-600 hover:bg-stone-100 rounded-md">FAQ</a>
+                 </div>
+             </div>
+         </nav>
+     </header>
 
     <main>
         <!-- Hero Section -->
@@ -106,13 +152,13 @@
                     <span class="text-indigo-600">💻 AI Code Editor</span>
                     <br />Intelligent Development Environment
                 </h1>
-                <p class="mt-4 max-w-3xl mx-auto text-xl text-stone-600">
+                <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-stone-600">
                     A modern, AI-powered web-based code editor built with HTML, Tailwind CSS, JavaScript, and Flask
                     backend. Features AI-driven code analysis, generation, multi-language execution, and real-time
                     suggestions powered by Google Gemini.
-                </p>
-                <div class="mt-6 max-w-3xl mx-auto text-lg text-stone-700">
-                    <p class="mb-3"><strong>🎯 Key Features:</strong></p>
+                 </p>
+                 <div class="mt-6 max-w-3xl mx-auto text-base md:text-lg text-stone-700">
+                     <p class="mb-3"><strong>🎯 Key Features:</strong></p>
                     <ul class="text-left space-y-2 inline-block">
                         <li>✓ AI-powered code analysis and optimization suggestions</li>
                         <li>✓ Real-time code completion and live AI assistance</li>
@@ -121,9 +167,9 @@
                         <li>✓ Live web preview for HTML/CSS/JS</li>
                         <li>✓ Integrated file explorer and project management</li>
                     </ul>
-                </div>
-                <div class="mt-6 max-w-3xl mx-auto text-lg text-stone-700">
-                    <p class="mb-3"><strong>💼 Use Cases:</strong></p>
+                 </div>
+                 <div class="mt-6 max-w-3xl mx-auto text-base md:text-lg text-stone-700">
+                     <p class="mb-3"><strong>💼 Use Cases:</strong></p>
                     <ul class="text-left space-y-2 inline-block">
                         <li>• Educational platforms for coding tutorials</li>
                         <li>• Developer productivity tools with AI assistance</li>
@@ -132,13 +178,13 @@
                         <li>• Prototyping and rapid development environments</li>
                     </ul>
                 </div>
-                <div class="mt-8 flex justify-center gap-4">
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
                     <a href="https://github.com/sumanth-ds/AI-Code-Editor"
-                        class="inline-block bg-stone-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-stone-800 transition">
+                        class="inline-block bg-stone-700 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-stone-800 transition text-sm sm:text-base">
                         <i class="fab fa-github mr-2"></i>View on GitHub
                     </a>
                     <a href="#setup"
-                        class="inline-block bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-indigo-700 transition">Setup
+                        class="inline-block bg-indigo-600 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-indigo-700 transition text-sm sm:text-base">Setup
                         Guide</a>
                 </div>
                 <div class="mt-6 text-sm text-stone-500">
@@ -152,11 +198,11 @@
         <section id="features" class="py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-stone-900">Core Features</h2>
-                    <p class="mt-2 text-lg text-stone-600">Hover over a card to learn more about each powerful
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900">Core Features</h2>
+                    <p class="mt-2 text-base md:text-lg text-stone-600">Hover over a card to learn more about each powerful
                         capability.</p>
                 </div>
-                <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div class="mt-12 grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <div class="feature-card perspective-[1000px]">
                         <div class="feature-card-inner relative w-full h-64">
                             <div
@@ -261,13 +307,13 @@
         <section id="tech-stack" class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-stone-900">Technology Stack</h2>
-                    <p class="mt-2 text-lg text-stone-600">The tools and technologies that power the AI Code Editor.</p>
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900">Technology Stack</h2>
+                    <p class="mt-2 text-base md:text-lg text-stone-600">The tools and technologies that power the AI Code Editor.</p>
                 </div>
-                <div class="mt-12 grid md:grid-cols-2 gap-12">
-                    <div class="bg-stone-100 p-8 rounded-lg">
-                        <h3 class="text-2xl font-bold text-stone-900 mb-4 text-center">Frontend</h3>
-                        <div class="grid grid-cols-2 gap-6 text-center">
+                <div class="mt-12 grid md:grid-cols-2 gap-6 md:gap-8">
+                    <div class="bg-stone-100 p-6 md:p-8 rounded-lg">
+                        <h3 class="text-xl md:text-2xl font-bold text-stone-900 mb-4 text-center">Frontend</h3>
+                        <div class="grid grid-cols-2 gap-3 md:gap-4 text-center">
                             <div><i class="fab fa-html5 text-4xl text-orange-500"></i>
                                 <p class="mt-2 font-semibold">HTML5</p>
                             </div>
@@ -282,9 +328,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bg-stone-100 p-8 rounded-lg">
-                        <h3 class="text-2xl font-bold text-stone-900 mb-4 text-center">Backend & AI</h3>
-                        <div class="grid grid-cols-2 gap-6 text-center">
+                    <div class="bg-stone-100 p-6 md:p-8 rounded-lg">
+                        <h3 class="text-xl md:text-2xl font-bold text-stone-900 mb-4 text-center">Backend & AI</h3>
+                        <div class="grid grid-cols-2 gap-3 md:gap-4 text-center">
                             <div><i class="fab fa-python text-4xl text-blue-600"></i>
                                 <p class="mt-2 font-semibold">Python</p>
                             </div>
@@ -307,8 +353,8 @@
         <section id="setup" class="py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-stone-900">Interactive Setup Guide</h2>
-                    <p class="mt-2 text-lg text-stone-600">Follow this step-by-step guide to get the editor running
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900">Interactive Setup Guide</h2>
+                    <p class="mt-2 text-base md:text-lg text-stone-600">Follow this step-by-step guide to get the code editor running
                         locally.</p>
                 </div>
                 <div class="mt-12 max-w-4xl mx-auto">
@@ -388,8 +434,8 @@ API_KEY = "YOUR_GEMINI_API_KEY_HERE"</code></pre>
         <section id="demo" class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-stone-900">Usage Demo</h2>
-                    <p class="mt-2 text-lg text-stone-600">Interact with this simulated editor to see how it works.
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900">Usage Demo</h2>
+                    <p class="mt-2 text-base md:text-lg text-stone-600">Interact with this simulated editor to see how it works.
                         (some features are avaliable in next version. java and node.js)</p>
                 </div>
                 <div
@@ -435,8 +481,8 @@ API_KEY = "YOUR_GEMINI_API_KEY_HERE"</code></pre>
         <section id="faq" class="py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-stone-900">Troubleshooting FAQ</h2>
-                    <p class="mt-2 text-lg text-stone-600">Common questions and solutions to get you back on track.</p>
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900">Frequently Asked Questions</h2>
+                    <p class="mt-2 text-base md:text-lg text-stone-600">Common issues and solutions for the AI Code Editor.</p>
                 </div>
                 <div class="mt-12 space-y-4" id="faq-container">
                     <div class="faq-item bg-white p-6 rounded-lg shadow-md cursor-pointer">
@@ -457,7 +503,7 @@ API_KEY = "YOUR_GEMINI_API_KEY_HERE"</code></pre>
                     </div>
                     <div class="faq-item bg-white p-6 rounded-lg shadow-md cursor-pointer">
                         <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold text-stone-900">"Interpreter not found."</h3>
+                            <h3 class="text-base md:text-lg font-semibold text-stone-900">"Interpreter not found."</h3>
                             <span class="faq-icon text-stone-500 transition-transform"><i
                                     class="fa-solid fa-chevron-down"></i></span>
                         </div>
@@ -469,7 +515,7 @@ API_KEY = "YOUR_GEMINI_API_KEY_HERE"</code></pre>
                     </div>
                     <div class="faq-item bg-white p-6 rounded-lg shadow-md cursor-pointer">
                         <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold text-stone-900">Why are there no AI suggestions?</h3>
+                            <h3 class="text-base md:text-lg font-semibold text-stone-900">Why are there no AI suggestions?</h3>
                             <span class="faq-icon text-stone-500 transition-transform"><i
                                     class="fa-solid fa-chevron-down"></i></span>
                         </div>
@@ -570,6 +616,21 @@ API_KEY = "YOUR_GEMINI_API_KEY_HERE"</code></pre>
                     faqItem.classList.toggle('active');
                 }
             });
+
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+                // Close mobile menu when clicking a link
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
         });
     </script>
 

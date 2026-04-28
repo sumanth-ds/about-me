@@ -55,39 +55,85 @@
         .copy-feedback {
             transition: opacity 0.5s;
         }
+
+        /* Responsive Tech Stack Icons */
+        #tech-stack-container .text-5xl,
+        #tech-stack-container .fa-5x {
+            font-size: 2rem !important;
+        }
+
+        @media (min-width: 768px) {
+            #tech-stack-container .text-5xl,
+            #tech-stack-container .fa-5x {
+                font-size: 3rem !important;
+            }
+        }
+
+        /* Larger touch targets for demo buttons on mobile */
+        @media (max-width: 480px) {
+            .demo-btn {
+                padding: 0.75rem 1rem !important; /* py-3 px-4 equivalent */
+                font-size: 0.875rem !important;
+            }
+
+            /* Full-width hero CTA buttons on mobile */
+            #hero .flex a {
+                display: block;
+                width: 100%;
+                max-width: 280px;
+                margin: 8px auto !important;
+            }
+        }
     </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- Header & Navigation -->
-    <header id="header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-xl font-bold text-teal-600 flex items-center"><i
-                            class="fa-solid fa-robot mr-2"></i> Multi-Chatbot Guide</span>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#features"
-                            class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Features</a>
-                        <a href="#tech-stack"
-                            class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Tech
-                            Stack</a>
-                        <a href="#setup"
-                            class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Setup
-                            Guide</a>
-                        <a href="#demo"
-                            class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Usage
-                            Demo</a>
-                        <a href="#faq"
-                            class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+     <!-- Header & Navigation -->
+     <header id="header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="flex items-center justify-between h-16">
+                 <div class="flex items-center">
+                     <span class="text-xl font-bold text-teal-600 flex items-center"><i
+                             class="fa-solid fa-robot mr-2"></i> Multi-Chatbot Guide</span>
+                 </div>
+                 <!-- Desktop Navigation -->
+                 <div class="hidden md:block">
+                     <div class="ml-10 flex items-baseline space-x-4">
+                         <a href="#features"
+                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                         <a href="#tech-stack"
+                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Tech
+                             Stack</a>
+                         <a href="#setup"
+                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Setup
+                             Guide</a>
+                         <a href="#demo"
+                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Usage
+                             Demo</a>
+                         <a href="#faq"
+                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
+                     </div>
+                 </div>
+                 <!-- Mobile Menu Button -->
+                 <div class="md:hidden">
+                     <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none">
+                         <i class="fas fa-bars text-2xl"></i>
+                     </button>
+                 </div>
+             </div>
+             <!-- Mobile Navigation Menu -->
+             <div id="mobile-menu" class="md:hidden hidden">
+                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm shadow-lg">
+                     <a href="#features" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Features</a>
+                     <a href="#tech-stack" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Tech Stack</a>
+                     <a href="#setup" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Setup Guide</a>
+                     <a href="#demo" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Usage Demo</a>
+                     <a href="#faq" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">FAQ</a>
+                 </div>
+             </div>
+         </nav>
+     </header>
 
     <main>
         <!-- Hero Section -->
@@ -97,12 +143,12 @@
                     <span class="text-teal-600">🤖 Multi-Chatbot RAG Application</span>
                     <br />Intelligent Document Interaction Platform
                 </h1>
-                <p class="mt-4 max-w-3xl mx-auto text-xl text-slate-600">
+                <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-slate-600">
                     A sophisticated Streamlit-based conversational AI platform featuring Retrieval-Augmented Generation
                     (RAG) for enhanced data interaction. Chat with CSV files, PDF documents, and web URLs using advanced
                     language models from Google Gemini and Meta Llama.
                 </p>
-                <div class="mt-6 max-w-3xl mx-auto text-lg text-slate-700">
+                <div class="mt-6 max-w-3xl mx-auto text-base md:text-lg text-slate-700">
                     <p class="mb-3"><strong>🎯 Core Capabilities:</strong></p>
                     <ul class="text-left space-y-2 inline-block">
                         <li>✓ <strong>Chat with CSV:</strong> Query structured data with natural language</li>
@@ -113,7 +159,7 @@
                         <li>✓ <strong>95% Query Resolution:</strong> A/B tested for accuracy</li>
                     </ul>
                 </div>
-                <div class="mt-6 max-w-3xl mx-auto text-lg text-slate-700">
+                <div class="mt-6 max-w-3xl mx-auto text-base md:text-lg text-slate-700">
                     <p class="mb-3"><strong>💼 Business Applications:</strong></p>
                     <ul class="text-left space-y-2 inline-block">
                         <li>• Enterprise knowledge management systems</li>
@@ -124,17 +170,17 @@
                         <li>• Legal document review and Q&A systems</li>
                     </ul>
                 </div>
-                <div class="mt-8 flex justify-center gap-4">
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
                     <a href="https://sumanth-ai-chatbot.streamlit.app/"
-                        class="inline-block bg-teal-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-teal-700 transition">
+                        class="inline-block bg-teal-600 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-teal-700 transition text-sm sm:text-base">
                         <i class="fas fa-external-link-alt mr-2"></i>Live Demo
                     </a>
                     <a href="https://github.com/sumanth-ds/multi-chatbot-rag"
-                        class="inline-block bg-slate-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-slate-800 transition">
+                        class="inline-block bg-slate-700 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-slate-800 transition text-sm sm:text-base">
                         <i class="fab fa-github mr-2"></i>GitHub Repository
                     </a>
                     <a href="#setup"
-                        class="inline-block bg-purple-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-purple-700 transition">Setup
+                        class="inline-block bg-purple-600 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-purple-700 transition text-sm sm:text-base">Setup
                         Guide</a>
                 </div>
                 <div class="mt-6 text-sm text-slate-500">
@@ -148,8 +194,8 @@
         <section id="features" class="py-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-slate-900">🚀 Advanced RAG Capabilities</h2>
-                    <p class="mt-2 text-lg text-slate-600">Multiple interaction modes powered by Retrieval-Augmented
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900">🚀 Advanced RAG Capabilities</h2>
+                    <p class="mt-2 text-base md:text-lg text-slate-600">Multiple interaction modes powered by Retrieval-Augmented
                         Generation for enhanced accuracy and context</p>
                 </div>
                 <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3" id="features-container">
@@ -166,7 +212,7 @@
                     <p class="mt-2 text-lg text-slate-600">The tools and technologies that power the Multi-Chatbot
                         Application.</p>
                 </div>
-                <div class="mt-12 max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-center"
+                <div class="mt-12 max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6 text-center"
                     id="tech-stack-container">
                     <!-- Tech stack icons will be dynamically inserted here -->
                 </div>
@@ -268,7 +314,7 @@ together = "YOUR_TOGETHER_API_KEY_HERE"</code></pre>
                         class="bg-slate-100 p-6 rounded-lg min-h-[10rem] flex items-center justify-center transition-all duration-300">
                         <span class="text-slate-500">Click a button below to see an example interaction.</span>
                     </div>
-                    <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4" id="demo-buttons-container">
+                    <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3" id="demo-buttons-container">
                         <!-- Demo buttons will be dynamically inserted here -->
                     </div>
                 </div>
@@ -456,6 +502,21 @@ together = "YOUR_TOGETHER_API_KEY_HERE"</code></pre>
                     faqItem.classList.toggle('active');
                 }
             });
+
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+                // Close mobile menu when clicking a link
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
         });
     </script>
 
