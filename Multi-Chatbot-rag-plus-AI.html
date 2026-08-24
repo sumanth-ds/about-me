@@ -1,300 +1,262 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Guide: Multi-Chatbot Application</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Chosen Palette: Warm Neutrals (Tailwind Stone & Slate) with a Teal accent -->
-    <!-- Application Structure Plan: A multi-section, single-page application with a sticky top navigation. The structure transforms the linear README into thematic, interactive sections (Features, Tech Stack, Interactive Setup, Usage Demo, FAQ). This non-linear, task-oriented design is chosen to make the technical information more engaging and easier to digest than a static document. Users can jump directly to the section they need, like 'Setup', or explore features interactively. -->
-    <!-- Visualization & Content Choices: Report Info: Features list -> Goal: Inform/Engage -> Presentation: Interactive Cards (HTML/JS) -> Interaction: Click to reveal details. Justification: More engaging than a static list. | Report Info: Setup instructions -> Goal: Instruct/Organize -> Presentation: Step-by-step wizard (HTML/JS) -> Interaction: Clickable steps, copy-to-clipboard buttons. Justification: Simplifies a complex process. | Report Info: Usage guide -> Goal: Demonstrate -> Presentation: Simulated UI (HTML/CSS/JS) -> Interaction: Buttons show pre-canned output. Justification: Provides a tangible feel for the app. | Report Info: Troubleshooting list -> Goal: Organize/Inform -> Presentation: Accordion FAQ (HTML/JS) -> Interaction: Click to expand/collapse. Justification: Cleaner UI. No charts needed as the source is descriptive text. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>Interactive Guide: Multi-Chatbot RAG Application</title>
+    <meta name="description" content="A sophisticated Streamlit-based conversational AI platform featuring RAG for enhanced data interaction.">
+    <link rel="icon" href="pic.png" sizes="64x64" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        :root {
+            --color-primary: #8b4dff; --color-primary-hover: #7c2dff; --color-primary-light: #f5f0ff;
+            --gray-50: #fafafa; --gray-100: #f4f4f5; --gray-200: #e4e4e7; --gray-300: #d4d4d8;
+            --gray-400: #a1a1aa; --gray-500: #71717a; --gray-600: #52525b; --gray-700: #3f3f46;
+            --gray-800: #27272a; --gray-900: #18181b;
+            --color-surface: #fff; --color-bg: var(--gray-50); --color-text: var(--gray-800);
+            --color-text-secondary: var(--gray-500); --color-border: var(--gray-200);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --duration-fast: 150ms; --duration-normal: 250ms;
+            --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-20: 5rem;
         }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); font-size: 1rem; line-height: 1.6; color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        .skip-link { position: absolute; top: -100%; left: 1rem; background: var(--color-primary); color: #fff; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; z-index: 10000; }
+        .skip-link:focus { top: 1rem; }
+        :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        section { padding: var(--space-20) 0; }
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap');
+        header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--color-border); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+        .logo { font-size: 1.125rem; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .logo svg { width: 20px; height: 20px; }
+        .nav-links { display: none; gap: 0.25rem; }
+        .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--color-text-secondary); padding: 0.5rem 0.75rem; border-radius: var(--radius-md); transition: all var(--duration-fast); }
+        .nav-links a:hover { color: var(--color-primary); background: var(--color-primary-light); }
+        .mobile-toggle { display: flex; background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--color-text); }
+        .mobile-toggle svg { width: 24px; height: 24px; }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-lg); padding: 0.5rem; }
+        .mobile-menu.active { display: block; }
+        .mobile-menu a { display: block; padding: 0.75rem 1rem; font-size: 0.875rem; font-weight: 500; color: var(--color-text-secondary); border-radius: var(--radius-md); }
+        .mobile-menu a:hover { background: var(--color-primary-light); color: var(--color-primary); }
+        @media (min-width: 768px) { .nav-links { display: flex; } .mobile-toggle { display: none; } }
 
-        .font-fira {
-            font-family: 'Fira Code', monospace;
-        }
+        .hero { background: var(--color-surface); text-align: center; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1px; color: var(--gray-900); }
+        .hero h1 .accent { color: var(--color-primary); }
+        .hero > .container > p { margin: 1rem auto 0; max-width: 700px; color: var(--color-text-secondary); font-size: clamp(1rem, 2vw, 1.125rem); }
+        .hero-list { margin: 1.5rem auto; max-width: 600px; text-align: left; }
+        .hero-list p { font-weight: 600; margin-bottom: 0.5rem; }
+        .hero-list li { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.375rem; font-size: 0.9375rem; color: var(--color-text-secondary); }
+        .hero-list svg { width: 14px; height: 14px; color: var(--color-primary); flex-shrink: 0; margin-top: 3px; }
+        .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 2rem; }
+        .hero-tech { margin-top: 1.5rem; font-size: 0.8125rem; color: var(--gray-400); }
 
-        .setup-step.active {
-            display: block;
-        }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; font-size: 0.875rem; font-weight: 600; font-family: var(--font-sans); border-radius: var(--radius-full); border: none; cursor: pointer; transition: all var(--duration-normal) var(--ease-out); text-decoration: none; }
+        .btn svg { width: 16px; height: 16px; }
+        .btn-primary { background: var(--color-primary); color: #fff; box-shadow: 0 4px 12px rgba(139,77,255,0.25); }
+        .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
+        .btn-secondary { background: var(--gray-700); color: #fff; }
+        .btn-secondary:hover { background: var(--gray-800); transform: translateY(-2px); }
 
-        .setup-tab.active {
-            border-color: #0d9488;
-            /* teal-600 */
-            background-color: #f0fdfa;
-            /* teal-50 */
-            color: #0f766e;
-            /* teal-700 */
-        }
+        .section-header { text-align: center; margin-bottom: var(--space-12); }
+        .section-header h2 { font-size: clamp(1.375rem, 3vw, 1.75rem); font-weight: 800; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .section-header p { color: var(--color-text-secondary); max-width: 560px; margin: 0 auto; font-size: 0.9375rem; }
 
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
+        .features-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .feature-card { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 2rem; text-align: center; transition: all var(--duration-normal) var(--ease-out); cursor: default; }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+        .feature-card svg { width: 36px; height: 36px; color: var(--color-primary); margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .feature-card p { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.7; }
+        @media (min-width: 640px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .features-grid { grid-template-columns: repeat(3, 1fr); } }
 
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            /* Adjust as needed */
-        }
+        .tech-section { background: var(--color-surface); }
+        .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 600px; margin: 0 auto; text-align: center; }
+        .tech-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+        .tech-item svg { width: 40px; height: 40px; }
+        .tech-item p { font-weight: 600; font-size: 0.875rem; }
+        @media (min-width: 768px) { .tech-grid { grid-template-columns: repeat(5, 1fr); max-width: 100%; } }
 
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
+        .setup-container { max-width: 800px; margin: 0 auto; }
+        .setup-card { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; }
+        .setup-tabs { display: flex; border-bottom: 1px solid var(--color-border); }
+        .setup-tab { flex: 1; padding: 1rem; text-align: center; font-size: 0.8125rem; font-weight: 600; border: none; background: none; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; transition: all var(--duration-fast); font-family: var(--font-sans); }
+        .setup-tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); background: var(--color-primary-light); }
+        .setup-step { display: none; padding: 2rem; }
+        .setup-step.active { display: block; }
+        .setup-step h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 1rem; }
+        .setup-step p { color: var(--color-text-secondary); margin-bottom: 1rem; font-size: 0.9375rem; }
+        .code-block { background: var(--gray-900); border-radius: var(--radius-md); margin-bottom: 1.5rem; position: relative; }
+        .code-block pre { color: #fff; padding: 1rem; overflow-x: auto; font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.7; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: none; color: var(--gray-400); cursor: pointer; padding: 0.375rem; border-radius: var(--radius-sm); transition: color var(--duration-fast); }
+        .copy-btn:hover { color: #fff; }
+        .copy-btn svg { width: 16px; height: 16px; }
+        .copy-feedback { position: absolute; top: 0.5rem; right: 2.5rem; font-size: 0.75rem; background: #16a34a; color: #fff; padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); display: none; }
 
-        .copy-feedback {
-            transition: opacity 0.5s;
-        }
+        .demo-section { background: var(--color-surface); }
+        .demo-output { background: var(--gray-100); padding: 1.5rem; border-radius: var(--radius-md); min-height: 10rem; display: flex; align-items: center; justify-content: center; transition: all var(--duration-normal); }
+        .demo-output span { color: var(--gray-400); font-size: 0.9375rem; }
+        .demo-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 1rem; }
+        .demo-btn { background: var(--color-primary); color: #fff; border: none; padding: 0.625rem 1rem; border-radius: var(--radius-md); font-size: 0.8125rem; font-weight: 600; font-family: var(--font-sans); cursor: pointer; transition: all var(--duration-fast); }
+        .demo-btn:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+        @media (min-width: 768px) { .demo-buttons { grid-template-columns: repeat(4, 1fr); } }
 
-        /* Responsive Tech Stack Icons */
-        #tech-stack-container .text-5xl,
-        #tech-stack-container .fa-5x {
-            font-size: 2rem !important;
-        }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--color-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 0.75rem; cursor: pointer; border: 1px solid var(--color-border); }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; }
+        .faq-question h3 { font-size: 0.9375rem; font-weight: 600; }
+        .faq-icon { color: var(--gray-400); transition: transform var(--duration-normal); }
+        .faq-icon svg { width: 16px; height: 16px; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease-out); }
+        .faq-item.active .faq-answer { max-height: 500px; }
+        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: var(--color-text-secondary); font-size: 0.875rem; line-height: 1.7; }
 
-        @media (min-width: 768px) {
-            #tech-stack-container .text-5xl,
-            #tech-stack-container .fa-5x {
-                font-size: 3rem !important;
-            }
-        }
+        footer { background: var(--gray-900); color: var(--gray-400); padding: 3rem 0 1.5rem; text-align: center; font-size: 0.8125rem; }
+        footer a { color: var(--gray-300); } footer a:hover { color: #fff; }
 
-        /* Larger touch targets for demo buttons on mobile */
-        @media (max-width: 480px) {
-            .demo-btn {
-                padding: 0.75rem 1rem !important; /* py-3 px-4 equivalent */
-                font-size: 0.875rem !important;
-            }
-
-            /* Full-width hero CTA buttons on mobile */
-            #hero .flex a {
-                display: block;
-                width: 100%;
-                max-width: 280px;
-                margin: 8px auto !important;
-            }
-        }
+        @media (max-width: 480px) { .hero-actions .btn { width: 100%; max-width: 280px; justify-content: center; } .demo-btn { padding: 0.75rem 1rem; font-size: 0.875rem; } }
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800">
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
 
-     <!-- Header & Navigation -->
-     <header id="header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-             <div class="flex items-center justify-between h-16">
-                 <div class="flex items-center">
-                     <span class="text-xl font-bold text-teal-600 flex items-center"><i
-                             class="fa-solid fa-robot mr-2"></i> Multi-Chatbot Guide</span>
-                 </div>
-                 <!-- Desktop Navigation -->
-                 <div class="hidden md:block">
-                     <div class="ml-10 flex items-baseline space-x-4">
-                         <a href="#features"
-                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Features</a>
-                         <a href="#tech-stack"
-                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Tech
-                             Stack</a>
-                         <a href="#setup"
-                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Setup
-                             Guide</a>
-                         <a href="#demo"
-                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Usage
-                             Demo</a>
-                         <a href="#faq"
-                             class="text-slate-600 hover:bg-slate-200 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
-                     </div>
-                 </div>
-                 <!-- Mobile Menu Button -->
-                 <div class="md:hidden">
-                     <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none">
-                         <i class="fas fa-bars text-2xl"></i>
-                     </button>
-                 </div>
-             </div>
-             <!-- Mobile Navigation Menu -->
-             <div id="mobile-menu" class="md:hidden hidden">
-                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm shadow-lg">
-                     <a href="#features" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Features</a>
-                     <a href="#tech-stack" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Tech Stack</a>
-                     <a href="#setup" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Setup Guide</a>
-                     <a href="#demo" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Usage Demo</a>
-                     <a href="#faq" class="block px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-md">FAQ</a>
-                 </div>
-             </div>
-         </nav>
-     </header>
+    <header>
+        <div class="container">
+            <nav aria-label="Main navigation">
+                <a href="index.html" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    Back to Portfolio
+                </a>
+                <ul class="nav-links" role="list">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#tech-stack">Tech Stack</a></li>
+                    <li><a href="#setup">Setup Guide</a></li>
+                    <li><a href="#demo">Usage Demo</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <button class="mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </nav>
+            <div class="mobile-menu" id="mobile-menu" role="navigation">
+                <a href="#features">Features</a>
+                <a href="#tech-stack">Tech Stack</a>
+                <a href="#setup">Setup Guide</a>
+                <a href="#demo">Usage Demo</a>
+                <a href="#faq">FAQ</a>
+            </div>
+        </div>
+    </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="hero" class="py-20 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl font-extrabold text-slate-900 sm:text-5xl md:text-6xl">
-                    <span class="text-teal-600">🤖 Multi-Chatbot RAG Application</span>
-                    <br />Intelligent Document Interaction Platform
-                </h1>
-                <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-slate-600">
-                    A sophisticated Streamlit-based conversational AI platform featuring Retrieval-Augmented Generation
-                    (RAG) for enhanced data interaction. Chat with CSV files, PDF documents, and web URLs using advanced
-                    language models from Google Gemini and Meta Llama.
-                </p>
-                <div class="mt-6 max-w-3xl mx-auto text-base md:text-lg text-slate-700">
-                    <p class="mb-3"><strong>🎯 Core Capabilities:</strong></p>
-                    <ul class="text-left space-y-2 inline-block">
-                        <li>✓ <strong>Chat with CSV:</strong> Query structured data with natural language</li>
-                        <li>✓ <strong>Chat with PDF:</strong> Extract and analyze document content</li>
-                        <li>✓ <strong>Chat with URL:</strong> Retrieve and process web page information</li>
-                        <li>✓ <strong>RAG Integration:</strong> Context-aware responses using vector embeddings</li>
-                        <li>✓ <strong>Multi-Model Support:</strong> Google Gemini & Meta Llama models</li>
-                        <li>✓ <strong>95% Query Resolution:</strong> A/B tested for accuracy</li>
+    <main id="main">
+        <section class="hero">
+            <div class="container">
+                <h1><span class="accent">Multi-Chatbot RAG Application</span><br>Intelligent Document Interaction Platform</h1>
+                <p>A sophisticated Streamlit-based conversational AI platform featuring Retrieval-Augmented Generation (RAG) for enhanced data interaction. Chat with CSV, PDF, and web URLs using Google Gemini and Meta Llama.</p>
+                <div class="hero-list">
+                    <p>Core Capabilities:</p>
+                    <ul>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>Chat with CSV:</strong> Query structured data with natural language</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>Chat with PDF:</strong> Extract and analyze document content</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>Chat with URL:</strong> Retrieve and process web page information</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>RAG Integration:</strong> Context-aware responses using vector embeddings</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>Multi-Model Support:</strong> Google Gemini & Meta Llama</li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg><strong>95% Query Resolution:</strong> A/B tested for accuracy</li>
                     </ul>
                 </div>
-                <div class="mt-6 max-w-3xl mx-auto text-base md:text-lg text-slate-700">
-                    <p class="mb-3"><strong>💼 Business Applications:</strong></p>
-                    <ul class="text-left space-y-2 inline-block">
-                        <li>• Enterprise knowledge management systems</li>
-                        <li>• Document analysis and summarization tools</li>
-                        <li>• Customer support with document context</li>
-                        <li>• Research assistants for academic papers</li>
-                        <li>• Data analytics chatbots for business intelligence</li>
-                        <li>• Legal document review and Q&A systems</li>
-                    </ul>
-                </div>
-                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
-                    <a href="https://sumanth-ai-chatbot.streamlit.app/"
-                        class="inline-block bg-teal-600 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-teal-700 transition text-sm sm:text-base">
-                        <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                <div class="hero-actions">
+                    <a href="https://sumanth-ai-chatbot.streamlit.app/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Live Demo</a>
+                    <a href="https://github.com/sumanth-ds/multi-chatbot-rag" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        GitHub Repository
                     </a>
-                    <a href="https://github.com/sumanth-ds/multi-chatbot-rag"
-                        class="inline-block bg-slate-700 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-slate-800 transition text-sm sm:text-base">
-                        <i class="fab fa-github mr-2"></i>GitHub Repository
-                    </a>
-                    <a href="#setup"
-                        class="inline-block bg-purple-600 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-purple-700 transition text-sm sm:text-base">Setup
-                        Guide</a>
+                    <a href="#setup" class="btn btn-primary" style="background:#7c3aed;">Setup Guide</a>
                 </div>
-                <div class="mt-6 text-sm text-slate-500">
-                    <p>Tech Stack: Python • Streamlit • LangChain • Google Gemini • Meta Llama • RAG • Vector Embeddings
-                        • FAISS</p>
-                </div>
+                <p class="hero-tech">Python · Streamlit · LangChain · Google Gemini · Meta Llama · RAG · FAISS</p>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <section id="features" class="py-20">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900">🚀 Advanced RAG Capabilities</h2>
-                    <p class="mt-2 text-base md:text-lg text-slate-600">Multiple interaction modes powered by Retrieval-Augmented
-                        Generation for enhanced accuracy and context</p>
+        <section id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Advanced RAG Capabilities</h2>
+                    <p>Multiple interaction modes powered by Retrieval-Augmented Generation</p>
                 </div>
-                <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3" id="features-container">
-                    <!-- Feature cards will be dynamically inserted here -->
-                </div>
+                <div class="features-grid" id="features-container"></div>
             </div>
         </section>
 
-        <!-- Tech Stack Section -->
-        <section id="tech-stack" class="py-20 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-slate-900">Technology Stack</h2>
-                    <p class="mt-2 text-lg text-slate-600">The tools and technologies that power the Multi-Chatbot
-                        Application.</p>
+        <section id="tech-stack" class="tech-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Technology Stack</h2>
+                    <p>The tools and technologies that power the Multi-Chatbot Application</p>
                 </div>
-                <div class="mt-12 max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6 text-center"
-                    id="tech-stack-container">
-                    <!-- Tech stack icons will be dynamically inserted here -->
-                </div>
+                <div class="tech-grid" id="tech-stack-container"></div>
             </div>
         </section>
 
-        <!-- Interactive Setup Guide Section -->
-        <section id="setup" class="py-20">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-slate-900">Interactive Setup Guide</h2>
-                    <p class="mt-2 text-lg text-slate-600">Follow this step-by-step guide to get the chatbot running
-                        locally.</p>
+        <section id="setup">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Interactive Setup Guide</h2>
+                    <p>Follow this step-by-step guide to get the chatbot running locally</p>
                 </div>
-                <div class="mt-12 max-w-4xl mx-auto">
-                    <div class="bg-white rounded-lg shadow-xl overflow-hidden">
-                        <div class="border-b border-slate-200">
-                            <div class="flex -mb-px" id="setup-tabs">
-                                <button data-step="1"
-                                    class="setup-tab active w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm">1.
-                                    Prerequisites</button>
-                                <button data-step="2"
-                                    class="setup-tab w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300">2.
-                                    Dependencies</button>
-                                <button data-step="3"
-                                    class="setup-tab w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300">3.
-                                    API Keys & Run</button>
+                <div class="setup-container">
+                    <div class="setup-card">
+                        <div class="setup-tabs">
+                            <button data-step="1" class="setup-tab active">1. Prerequisites</button>
+                            <button data-step="2" class="setup-tab">2. Dependencies</button>
+                            <button data-step="3" class="setup-tab">3. API Keys & Run</button>
+                        </div>
+                        <div class="setup-step active" id="step-1">
+                            <h3>Check Your Tools</h3>
+                            <p>Ensure you have Python installed and API keys for the required services.</p>
+                            <ul style="list-style:none;">
+                                <li style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Python 3.8 or newer</li>
+                                <li style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Active Google Cloud API Key</li>
+                                <li style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Active Together AI API Key</li>
+                            </ul>
+                        </div>
+                        <div class="setup-step" id="step-2">
+                            <h3>Install Dependencies</h3>
+                            <p>Run the following command to install all necessary Python packages:</p>
+                            <div class="code-block">
+                                <pre><code id="code-install">pip install streamlit langchain-experimental langchain-core langchain-google-genai langchain-community langchain-text-splitters requests beautifulsoup4 python-dotenv langchain-together</code></pre>
+                                <button class="copy-btn" data-target="code-install"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                                <span class="copy-feedback">Copied!</span>
                             </div>
                         </div>
-                        <div class="p-8">
-                            <div id="step-1" class="setup-step active">
-                                <h3 class="text-xl font-bold mb-4">Check Your Tools</h3>
-                                <p class="mb-6 text-slate-600">Before you begin, ensure you have Python installed and
-                                    can get API keys for the required services.</p>
-                                <ul class="space-y-4">
-                                    <li class="flex items-center"><i
-                                            class="fa-solid fa-check-circle text-green-500 mr-3"></i> Python 3.8 or
-                                        newer</li>
-                                    <li class="flex items-center"><i class="fa-solid fa-key text-yellow-500 mr-3"></i>
-                                        Active Google Cloud API Key</li>
-                                    <li class="flex items-center"><i class="fa-solid fa-key text-yellow-500 mr-3"></i>
-                                        Active Together AI API Key</li>
-                                </ul>
-                            </div>
-                            <div id="step-2" class="setup-step hidden">
-                                <h3 class="text-xl font-bold mb-4">Install Dependencies</h3>
-                                <p class="mb-2 text-slate-600">Open your terminal in the project directory and run the
-                                    following command to install all the necessary Python packages.</p>
-                                <div class="bg-slate-900 rounded-md mb-6 relative">
-                                    <pre
-                                        class="text-white p-4 overflow-x-auto font-fira"><code id="code-install">pip install streamlit langchain-experimental langchain-core langchain-google-genai langchain-community langchain-text-splitters requests beautifulsoup4 python-dotenv langchain-together</code></pre>
-                                    <button class="copy-btn absolute top-2 right-2 text-slate-400 hover:text-white"
-                                        data-target="code-install"><i class="fa-solid fa-copy"></i></button>
-                                    <span
-                                        class="copy-feedback hidden absolute top-2 right-10 text-xs bg-green-500 text-white px-2 py-1 rounded">Copied!</span>
-                                </div>
-                            </div>
-                            <div id="step-3" class="setup-step hidden">
-                                <h3 class="text-xl font-bold mb-4">Configure API Keys & Run Server</h3>
-                                <p class="mb-2 text-slate-600">Create a folder named <code
-                                        class="font-fira bg-slate-200 p-1 rounded">.streamlit</code> in your project
-                                    root, and inside it, create a file named <code
-                                        class="font-fira bg-slate-200 p-1 rounded">secrets.toml</code>.</p>
-                                <div class="bg-slate-900 rounded-md mb-6 relative">
-                                    <pre class="text-white p-4 overflow-x-auto font-fira"><code id="code-env"># .streamlit/secrets.toml
+                        <div class="setup-step" id="step-3">
+                            <h3>Configure API Keys & Run Server</h3>
+                            <p>Create a folder named <code style="font-family:var(--font-mono);background:var(--gray-100);padding:0.125rem 0.375rem;border-radius:4px;font-size:0.8125rem;">.streamlit</code> and a <code style="font-family:var(--font-mono);background:var(--gray-100);padding:0.125rem 0.375rem;border-radius:4px;font-size:0.8125rem;">secrets.toml</code> file inside it:</p>
+                            <div class="code-block">
+                                <pre><code id="code-env"># .streamlit/secrets.toml
 google = "YOUR_GOOGLE_API_KEY_HERE"
 together = "YOUR_TOGETHER_API_KEY_HERE"</code></pre>
-                                    <button class="copy-btn absolute top-2 right-2 text-slate-400 hover:text-white"
-                                        data-target="code-env"><i class="fa-solid fa-copy"></i></button>
-                                    <span
-                                        class="copy-feedback hidden absolute top-2 right-10 text-xs bg-green-500 text-white px-2 py-1 rounded">Copied!</span>
-                                </div>
-                                <p class="mb-2 text-slate-600">Finally, run the Streamlit application. It will be
-                                    accessible at `http://localhost:8501`.</p>
-                                <div class="bg-slate-900 rounded-md mb-4 relative">
-                                    <pre
-                                        class="text-white p-4 overflow-x-auto font-fira"><code id="code-run">streamlit run app.py</code></pre>
-                                    <button class="copy-btn absolute top-2 right-2 text-slate-400 hover:text-white"
-                                        data-target="code-run"><i class="fa-solid fa-copy"></i></button>
-                                    <span
-                                        class="copy-feedback hidden absolute top-2 right-10 text-xs bg-green-500 text-white px-2 py-1 rounded">Copied!</span>
-                                </div>
+                                <button class="copy-btn" data-target="code-env"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                                <span class="copy-feedback">Copied!</span>
+                            </div>
+                            <p>Run the Streamlit application:</p>
+                            <div class="code-block">
+                                <pre><code id="code-run">streamlit run app.py</code></pre>
+                                <button class="copy-btn" data-target="code-run"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                                <span class="copy-feedback">Copied!</span>
                             </div>
                         </div>
                     </div>
@@ -302,224 +264,136 @@ together = "YOUR_TOGETHER_API_KEY_HERE"</code></pre>
             </div>
         </section>
 
-        <!-- Usage Demo Section -->
-        <section id="demo" class="py-20 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-slate-900">Usage Demo</h2>
-                    <p class="mt-2 text-lg text-slate-600">See examples of questions you can ask in different modes.</p>
+        <section id="demo" class="demo-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Usage Demo</h2>
+                    <p>See examples of questions you can ask in different modes</p>
                 </div>
-                <div class="mt-12 max-w-4xl mx-auto">
-                    <div id="demo-output"
-                        class="bg-slate-100 p-6 rounded-lg min-h-[10rem] flex items-center justify-center transition-all duration-300">
-                        <span class="text-slate-500">Click a button below to see an example interaction.</span>
-                    </div>
-                    <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3" id="demo-buttons-container">
-                        <!-- Demo buttons will be dynamically inserted here -->
-                    </div>
+                <div style="max-width:800px;margin:0 auto;">
+                    <div class="demo-output" id="demo-output"><span>Click a button below to see an example interaction.</span></div>
+                    <div class="demo-buttons" id="demo-buttons-container"></div>
                 </div>
             </div>
         </section>
 
-        <!-- FAQ Section -->
-        <section id="faq" class="py-20">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-slate-900">Troubleshooting FAQ</h2>
-                    <p class="mt-2 text-lg text-slate-600">Common questions and solutions to get you back on track.</p>
+        <section id="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Troubleshooting FAQ</h2>
+                    <p>Common questions and solutions</p>
                 </div>
-                <div class="mt-12 space-y-4" id="faq-container">
-                    <!-- FAQ items will be dynamically inserted here -->
-                </div>
+                <div class="faq-container" id="faq-container"></div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-slate-800 text-slate-300">
-        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center">
-            <p>Interactive Guide for the Multi-Chatbot Application. Built for clarity and engagement.</p>
-        </div>
-        <div>
-            <footer class="bg-secondary-bg text-text-secondary text-center py-4  border-border-color mt-auto">
-                <p class="text-sm">
-                    &copy; 2025 AI Code Editor. All rights reserved.
-                </p>
-                <p class="text-xs mt-1">
-                    Built with ❤️ by <a href="https://github.com/sumanth-ds" target="_blank"
-                        class="text-cyan-400 hover:underline">sumanth-ds</a>
-                </p>
-            </footer>
+    <footer>
+        <div class="container">
+            <p>Interactive Guide for the Multi-Chatbot Application</p>
+            <p style="margin-top:0.5rem;font-size:0.75rem;color:var(--gray-500);">Built with care by <a href="https://github.com/sumanth-ds" target="_blank" rel="noopener noreferrer">sumanth-ds</a></p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu
+            document.querySelector('.mobile-toggle').addEventListener('click', function () {
+                const menu = document.getElementById('mobile-menu');
+                const active = menu.classList.toggle('active');
+                this.setAttribute('aria-expanded', active);
+            });
+            document.getElementById('mobile-menu').querySelectorAll('a').forEach(a => a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('active')));
 
-            // --- DATA ---
+            // Dynamic content
             const featuresData = [
-                { icon: 'fa-comments', title: 'Multi-Model AI Chat', description: 'Engage with advanced LLMs from Google Gemini and Meta Llama with conversation memory and context awareness.' },
-                { icon: 'fa-file-csv', title: 'Chat with CSV (RAG)', description: 'Upload CSV files and query structured data using natural language. Perfect for data analysis and business intelligence.' },
-                { icon: 'fa-file-pdf', title: 'Chat with PDF (RAG)', description: 'Upload PDF documents and extract information using RAG. Ideal for research papers, contracts, and reports.' },
-                { icon: 'fa-link', title: 'Chat with URL (RAG)', description: 'Provide web URLs and interact with page content. Great for competitive analysis and web research.' },
-                { icon: 'fa-database', title: 'Vector Embeddings', description: 'Advanced RAG implementation using FAISS vector database for efficient semantic search and retrieval.' },
-                { icon: 'fa-brain', title: 'Context-Aware Responses', description: 'Intelligent query resolution with 95% accuracy through advanced RAG strategies and A/B testing.' }
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>', title: 'Multi-Model AI Chat', desc: 'Engage with advanced LLMs from Google Gemini and Meta Llama with conversation memory and context awareness.' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>', title: 'Chat with CSV (RAG)', desc: 'Upload CSV files and query structured data using natural language. Perfect for data analysis and BI.' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>', title: 'Chat with PDF (RAG)', desc: 'Upload PDF documents and extract information using RAG. Ideal for research papers, contracts, and reports.' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>', title: 'Chat with URL (RAG)', desc: 'Provide web URLs and interact with page content. Great for competitive analysis and web research.' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>', title: 'Vector Embeddings', desc: 'Advanced RAG implementation using FAISS vector database for efficient semantic search and retrieval.' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"></path><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"></path></svg>', title: 'Context-Aware Responses', desc: 'Intelligent query resolution with 95% accuracy through advanced RAG strategies and A/B testing.' }
             ];
+            const fc = document.getElementById('features-container');
+            featuresData.forEach(f => {
+                const card = document.createElement('div');
+                card.className = 'feature-card';
+                card.innerHTML = f.icon + '<h3>' + f.title + '</h3><p>' + f.desc + '</p>';
+                fc.appendChild(card);
+            });
 
-            const techStackData = [
-                { icon: 'fa-star', name: 'Streamlit' },
-                { icon: 'fa-link', name: 'LangChain' },
-                { icon: 'fa-robot', name: 'Gemini' },
-                { icon: 'fa-users', name: 'Together AI' },
-                { icon: 'fa-database', name: 'FAISS' }
+            const techData = [
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff4f4f" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>', name: 'Streamlit' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>', name: 'LangChain' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>', name: 'Gemini' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>', name: 'Together AI' },
+                { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>', name: 'FAISS' }
             ];
+            const tc = document.getElementById('tech-stack-container');
+            techData.forEach(t => {
+                const el = document.createElement('div');
+                el.className = 'tech-item';
+                el.innerHTML = t.icon + '<p>' + t.name + '</p>';
+                tc.appendChild(el);
+            });
 
             const demoData = [
-                { question: 'Explain quantum entanglement.', answer: 'AI explains the complex physics concept of quantum entanglement...', mode: 'Normal Chat' },
-                { question: 'What is the total revenue for Q3?', answer: 'AI analyzes the CSV and responds: The total revenue for Q3 is $15,780.', mode: 'Chat with CSV' },
-                { question: 'Summarize the methodology section.', answer: 'AI reads the PDF and provides a concise summary of the research methodology.', mode: 'Chat with PDF' },
-                { question: 'What are the main topics on this page?', answer: 'AI scans the webpage and lists the main topics discussed, such as... ', mode: 'Chat with URL' }
+                { q: 'Explain quantum entanglement.', a: 'AI explains the complex physics concept of quantum entanglement...', mode: 'Normal Chat' },
+                { q: 'What is the total revenue for Q3?', a: 'AI analyzes the CSV and responds: The total revenue for Q3 is $15,780.', mode: 'Chat with CSV' },
+                { q: 'Summarize the methodology section.', a: 'AI reads the PDF and provides a concise summary of the research methodology.', mode: 'Chat with PDF' },
+                { q: 'What are the main topics on this page?', a: 'AI scans the webpage and lists the main topics discussed.', mode: 'Chat with URL' }
             ];
+            const dbc = document.getElementById('demo-buttons-container');
+            const dout = document.getElementById('demo-output');
+            demoData.forEach(d => {
+                const btn = document.createElement('button');
+                btn.className = 'demo-btn';
+                btn.textContent = d.mode;
+                btn.addEventListener('click', () => {
+                    dout.innerHTML = '<div style="text-align:left;width:100%;"><p style="font-weight:600;color:var(--gray-800);margin-bottom:0.25rem;">You Asked (' + d.mode + '):</p><p style="color:var(--color-text-secondary);margin-bottom:1rem;">"' + d.q + '"</p><p style="font-weight:600;color:var(--color-primary);margin-bottom:0.25rem;">AI Answer:</p><p style="color:var(--gray-800);">"' + d.a + '"</p></div>';
+                });
+                dbc.appendChild(btn);
+            });
 
             const faqData = [
-                {
-                    question: 'Why am I getting an API Key Error?',
-                    answer: 'Ensure your API keys are correctly placed in the `.streamlit/secrets.toml` file and are valid. Also check the terminal where Streamlit is running for specific error messages from Google or Together AI.'
-                },
-                {
-                    question: 'Why isn\'t my uploaded file working?',
-                    answer: 'Make sure you are uploading the correct file type for the selected mode (e.g., a `.csv` file for "Chat with CSV"). Also, very large files might take a moment to process.'
-                },
-                {
-                    question: 'Why is the URL chat failing?',
-                    answer: 'Verify that the URL is correct and publicly accessible. Some websites may have measures in place to block automated scraping, which can prevent the tool from reading the content.'
-                }
+                { q: 'Why am I getting an API Key Error?', a: 'Ensure your API keys are correctly placed in the .streamlit/secrets.toml file and are valid. Check the terminal for specific error messages.' },
+                { q: "Why isn't my uploaded file working?", a: 'Make sure you are uploading the correct file type for the selected mode. Very large files might take a moment to process.' },
+                { q: 'Why is the URL chat failing?', a: 'Verify that the URL is correct and publicly accessible. Some websites may block automated scraping.' }
             ];
-
-
-            // --- DYNAMIC CONTENT INJECTION ---
-            const featuresContainer = document.getElementById('features-container');
-            featuresData.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'bg-white p-8 rounded-lg shadow-lg text-center cursor-pointer transition-transform transform hover:-translate-y-2';
-                card.innerHTML = `
-                    <div class="text-4xl text-teal-600 mb-4"><i class="fa-solid ${item.icon}"></i></div>
-                    <h3 class="text-xl font-bold text-slate-900">${item.title}</h3>
-                    <p class="mt-2 text-slate-600 text-sm">${item.description}</p>
-                `;
-                featuresContainer.appendChild(card);
+            const fqc = document.getElementById('faq-container');
+            faqData.forEach(f => {
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                item.innerHTML = '<div class="faq-question"><h3>' + f.q + '</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div><div class="faq-answer"><div class="faq-answer-inner"><p>' + f.a + '</p></div></div>';
+                fqc.appendChild(item);
             });
 
-            const techStackContainer = document.getElementById('tech-stack-container');
-            techStackData.forEach(item => {
-                const tech = document.createElement('div');
-                tech.className = 'flex flex-col items-center text-slate-600';
-                tech.innerHTML = `
-                    <i class="fa-solid ${item.icon} text-5xl"></i>
-                    <p class="mt-2 font-semibold">${item.name}</p>
-                `;
-                techStackContainer.appendChild(tech);
+            // Setup tabs
+            document.getElementById('setup-tabs').addEventListener('click', e => {
+                if (e.target.tagName !== 'BUTTON') return;
+                document.querySelectorAll('.setup-tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                document.querySelectorAll('.setup-step').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+                const step = document.getElementById('step-' + e.target.dataset.step);
+                step.classList.add('active'); step.style.display = 'block';
             });
 
-            const demoButtonsContainer = document.getElementById('demo-buttons-container');
-            const demoOutput = document.getElementById('demo-output');
-            demoData.forEach(item => {
-                const button = document.createElement('button');
-                button.className = 'demo-btn bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md text-sm font-semibold text-center';
-                button.textContent = item.mode;
-                button.addEventListener('click', () => {
-                    demoOutput.innerHTML = `
-                        <div class="text-left w-full">
-                            <p class="text-slate-800 font-semibold">You Asked (in ${item.mode} mode):</p>
-                            <p class="text-slate-600 mb-4">"${item.question}"</p>
-                            <p class="text-teal-600 font-semibold">AI Answer:</p>
-                            <p class="text-slate-800">"${item.answer}"</p>
-                        </div>
-                    `;
-                });
-                demoButtonsContainer.appendChild(button);
-            });
-
-            const faqContainer = document.getElementById('faq-container');
-            faqData.forEach(item => {
-                const faqItem = document.createElement('div');
-                faqItem.className = 'faq-item bg-white p-6 rounded-lg shadow-md cursor-pointer';
-                faqItem.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-slate-900">${item.question}</h3>
-                        <span class="faq-icon text-slate-500 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
-                    </div>
-                    <div class="faq-answer mt-4 text-slate-600">
-                        <p>${item.answer}</p>
-                    </div>
-                `;
-                faqContainer.appendChild(faqItem);
-            });
-
-
-            // --- INTERACTIVITY LOGIC ---
-            // Setup Guide Tabs
-            const setupTabs = document.getElementById('setup-tabs');
-            const setupSteps = document.querySelectorAll('.setup-step');
-
-            setupTabs.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') {
-                    const targetStep = e.target.dataset.step;
-
-                    document.querySelectorAll('.setup-tab').forEach(tab => tab.classList.remove('active'));
-                    e.target.classList.add('active');
-
-                    setupSteps.forEach(step => {
-                        if (step.id === `step-${targetStep}`) {
-                            step.classList.add('active');
-                            step.classList.remove('hidden');
-                        } else {
-                            step.classList.remove('active');
-                            step.classList.add('hidden');
-                        }
-                    });
-                }
-            });
-
-            // Copy to Clipboard
-            document.querySelectorAll('.copy-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetId = button.dataset.target;
-                    const code = document.getElementById(targetId).innerText;
-                    navigator.clipboard.writeText(code).then(() => {
-                        const feedback = button.nextElementSibling;
-                        feedback.classList.remove('hidden');
-                        setTimeout(() => {
-                            feedback.classList.add('hidden');
-                        }, 2000);
+            // Copy
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(document.getElementById(btn.dataset.target).innerText).then(() => {
+                        const fb = btn.nextElementSibling; fb.style.display = 'block';
+                        setTimeout(() => fb.style.display = 'none', 2000);
                     });
                 });
             });
 
-            // FAQ Accordion
-            faqContainer.addEventListener('click', (e) => {
-                const faqItem = e.target.closest('.faq-item');
-                if (faqItem) {
-                    faqItem.classList.toggle('active');
-                }
+            // FAQ
+            fqc.addEventListener('click', e => {
+                const item = e.target.closest('.faq-item');
+                if (item) item.classList.toggle('active');
             });
-
-            // Mobile Menu Toggle
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-                // Close mobile menu when clicking a link
-                mobileMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
-                    });
-                });
-            }
         });
     </script>
-
 </body>
-
 </html>
