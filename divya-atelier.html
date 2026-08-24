@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divya Atelier – Client E-Commerce Project</title>
+    <meta name="description" content="Premium clothing e-commerce platform for Divya Atelier — women's wear, men's wear, kids wear, school uniforms, accessories, and seasonal collections with WhatsApp ordering.">
+    <link rel="icon" href="pic.png" sizes="64x64" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #8b4dff; --color-primary-hover: #7c2dff; --color-primary-light: #f5f0ff;
+            --gray-50: #fafafa; --gray-100: #f4f4f5; --gray-200: #e4e4e7; --gray-300: #d4d4d8;
+            --gray-400: #a1a1aa; --gray-500: #71717a; --gray-600: #52525b; --gray-700: #3f3f46;
+            --gray-800: #27272a; --gray-900: #18181b;
+            --color-surface: #fff; --color-bg: var(--gray-50); --color-text: var(--gray-800);
+            --color-text-secondary: var(--gray-500); --color-border: var(--gray-200);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --duration-fast: 150ms; --duration-normal: 250ms;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); font-size: 1rem; line-height: 1.6; color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        .skip-link { position: absolute; top: -100%; left: 1rem; background: var(--color-primary); color: #fff; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; z-index: 10000; }
+        .skip-link:focus { top: 1rem; }
+        :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        section { padding: 3rem 0; }
+
+        header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--color-border); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+        .logo { font-size: 1.125rem; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .logo svg { width: 20px; height: 20px; }
+        .nav-links { display: none; gap: 0.25rem; }
+        .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--color-text-secondary); padding: 0.5rem 0.75rem; border-radius: var(--radius-md); transition: all var(--duration-fast); }
+        .nav-links a:hover { color: var(--color-primary); background: var(--color-primary-light); }
+        .mobile-toggle { display: flex; background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--color-text); }
+        .mobile-toggle svg { width: 24px; height: 24px; }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-lg); padding: 0.5rem; }
+        .mobile-menu.active { display: block; }
+        .mobile-menu a { display: block; padding: 0.75rem 1rem; font-size: 0.875rem; font-weight: 500; color: var(--color-text-secondary); border-radius: var(--radius-md); }
+        .mobile-menu a:hover { background: var(--color-primary-light); color: var(--color-primary); }
+        @media (min-width: 768px) { .nav-links { display: flex; } .mobile-toggle { display: none; } }
+
+        .hero { background: var(--color-surface); text-align: center; padding: 3rem 0 4rem; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1px; color: var(--gray-900); }
+        .hero h1 .accent { color: var(--color-primary); }
+        .hero > .container > p { margin: 1rem auto 0; max-width: 700px; color: var(--color-text-secondary); font-size: clamp(1rem, 2vw, 1.125rem); }
+        .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 2rem; }
+        .hero-tech { margin-top: 1.5rem; font-size: 0.8125rem; color: var(--gray-400); }
+        .live-badge { display: inline-flex; align-items: center; gap: 0.375rem; background: #dcfce7; color: #166534; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); margin-bottom: 1rem; }
+        .live-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; font-size: 0.875rem; font-weight: 600; font-family: var(--font-sans); border-radius: var(--radius-full); border: none; cursor: pointer; transition: all var(--duration-normal) var(--ease-out); text-decoration: none; }
+        .btn svg { width: 16px; height: 16px; }
+        .btn-primary { background: var(--color-primary); color: #fff; box-shadow: 0 4px 12px rgba(139,77,255,0.25); }
+        .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
+        .btn-secondary { background: var(--gray-700); color: #fff; }
+        .btn-secondary:hover { background: var(--gray-800); transform: translateY(-2px); }
+        .btn-whatsapp { background: #25d366; color: #fff; }
+        .btn-whatsapp:hover { background: #1da851; transform: translateY(-2px); }
+
+        .section-header { text-align: center; margin-bottom: 2.5rem; }
+        .section-header h2 { font-size: clamp(1.375rem, 3vw, 1.75rem); font-weight: 800; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .section-header p { color: var(--color-text-secondary); max-width: 560px; margin: 0 auto; font-size: 0.9375rem; }
+
+        .features-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .feature-card { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 2rem; text-align: center; transition: all var(--duration-normal) var(--ease-out); }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+        .feature-card svg { width: 36px; height: 36px; color: var(--color-primary); margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .feature-card p { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.7; }
+        @media (min-width: 640px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .features-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .preview-section { background: var(--gray-50); }
+        .preview-frame { max-width: 900px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-xl); border: 1px solid var(--color-border); background: var(--color-surface); }
+        .preview-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: var(--gray-100); border-bottom: 1px solid var(--color-border); }
+        .preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .preview-dot:nth-child(1) { background: #ef4444; }
+        .preview-dot:nth-child(2) { background: #eab308; }
+        .preview-dot:nth-child(3) { background: #22c55e; }
+        .preview-url { flex: 1; margin-left: 0.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.375rem 0.75rem; font-size: 0.75rem; color: var(--gray-500); font-family: var(--font-mono); }
+        .preview-body { padding: 3rem 2rem; text-align: center; background: linear-gradient(135deg,#fdf4ff 0%,#faf5ff 50%,#f5f3ff 100%); }
+        .preview-body h2 { font-size: 1.5rem; font-weight: 800; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .preview-body .tagline { color: var(--color-text-secondary); font-size: 0.9375rem; margin-bottom: 1.5rem; }
+        .category-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .pill { background: var(--color-surface); border: 1px solid var(--color-border); padding: 0.375rem 0.875rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 500; color: var(--gray-600); }
+
+        .categories-section { background: var(--color-surface); }
+        .categories-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 900px; margin: 0 auto; text-align: center; }
+        .category-card { background: var(--gray-50); border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--color-border); transition: all var(--duration-normal) var(--ease-out); }
+        .category-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .category-card svg { width: 32px; height: 32px; color: var(--color-primary); margin-bottom: 0.75rem; }
+        .category-card h3 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.25rem; }
+        .category-card p { font-size: 0.8125rem; color: var(--color-text-secondary); }
+        @media (min-width: 768px) { .categories-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .sections-list { max-width: 800px; margin: 0 auto; }
+        .section-row { display: flex; gap: 1rem; align-items: flex-start; padding: 1.25rem 0; border-bottom: 1px solid var(--color-border); }
+        .section-row:last-child { border-bottom: none; }
+        .section-row .num { width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--color-primary-light); color: var(--color-primary); font-size: 0.8125rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .section-row h3 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.25rem; }
+        .section-row p { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6; }
+
+        .tech-section { background: var(--gray-50); }
+        .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 600px; margin: 0 auto; text-align: center; }
+        .tech-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+        .tech-item svg { width: 36px; height: 36px; }
+        .tech-item p { font-weight: 600; font-size: 0.8125rem; }
+        .tech-item span { font-size: 0.6875rem; color: var(--gray-400); }
+        @media (min-width: 768px) { .tech-grid { grid-template-columns: repeat(4, 1fr); max-width: 100%; } }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--color-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 0.75rem; cursor: pointer; border: 1px solid var(--color-border); }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; }
+        .faq-question h3 { font-size: 0.9375rem; font-weight: 600; }
+        .faq-icon { color: var(--gray-400); transition: transform var(--duration-normal); }
+        .faq-icon svg { width: 16px; height: 16px; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease-out); }
+        .faq-item.active .faq-answer { max-height: 500px; }
+        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: var(--color-text-secondary); font-size: 0.875rem; line-height: 1.7; }
+        .faq-answer-inner li { margin-bottom: 0.5rem; padding-left: 1rem; position: relative; }
+        .faq-answer-inner li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--color-primary); }
+
+        footer { background: var(--gray-900); color: var(--gray-400); padding: 3rem 0 1.5rem; text-align: center; font-size: 0.8125rem; }
+        footer a { color: var(--gray-300); } footer a:hover { color: #fff; }
+
+        @media (max-width: 480px) { .hero-actions .btn { width: 100%; max-width: 280px; justify-content: center; } }
+    </style>
+</head>
+
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="container">
+            <nav aria-label="Main navigation">
+                <a href="index.html" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    Back to Portfolio
+                </a>
+                <ul class="nav-links" role="list">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#sections">Sections</a></li>
+                    <li><a href="#tech-stack">Tech Stack</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <button class="mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </nav>
+            <div class="mobile-menu" id="mobile-menu" role="navigation">
+                <a href="#overview">Overview</a>
+                <a href="#categories">Categories</a>
+                <a href="#sections">Sections</a>
+                <a href="#tech-stack">Tech Stack</a>
+                <a href="#faq">FAQ</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <span class="live-badge"><span class="dot"></span> Live Project</span>
+                <h1><span class="accent">Divya Atelier</span><br>Premium Clothing E-Commerce</h1>
+                <p>A premium, modern clothing e-commerce experience for Divya Atelier — a luxury showroom offering women's wear, men's wear, kids wear, school uniforms, accessories, and seasonal collections with WhatsApp ordering integration.</p>
+                <div class="hero-actions">
+                    <a href="https://divya-drab-beta.vercel.app/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        Live Website
+                    </a>
+                    <a href="https://wa.me/919949250802" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        WhatsApp Order
+                    </a>
+                </div>
+                <p class="hero-tech">React · Vercel · WhatsApp Integration · E-Commerce · Responsive</p>
+            </div>
+        </section>
+
+        <!-- Preview -->
+        <section id="overview" class="preview-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Live Preview</h2>
+                    <p>Visit the live website to browse the full collection</p>
+                </div>
+                <div class="preview-frame">
+                    <div class="preview-bar">
+                        <span class="preview-dot"></span>
+                        <span class="preview-dot"></span>
+                        <span class="preview-dot"></span>
+                        <span class="preview-url">https://divya-drab-beta.vercel.app/</span>
+                    </div>
+                    <div class="preview-body">
+                        <h2>Divya Atelier</h2>
+                        <p class="tagline">Luxury Clothing & Uniforms</p>
+                        <div class="category-pills">
+                            <span class="pill">Women's Wear</span>
+                            <span class="pill">Men's Wear</span>
+                            <span class="pill">Kids Wear</span>
+                            <span class="pill">School Uniforms</span>
+                            <span class="pill">Accessories</span>
+                            <span class="pill">Seasonal</span>
+                        </div>
+                        <a href="https://divya-drab-beta.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            Open Live Site
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Project Highlights</h2>
+                    <p>What makes this e-commerce platform effective</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        <h3>Responsive Design</h3>
+                        <p>Fully responsive across all devices — mobile, tablet, and desktop. Optimized for browsing and purchasing on any screen size.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        <h3>WhatsApp Ordering</h3>
+                        <p>Direct WhatsApp integration for seamless ordering — customers can browse products and place orders via WhatsApp with one tap.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <h3>Multi-Category Catalog</h3>
+                        <p>Complete product catalog with women's wear, men's wear, kids wear, school uniforms, accessories, and seasonal collections.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <h3>Product Showcase</h3>
+                        <p>High-quality product images with organized gallery layout, category filtering, and detailed product views.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                        <h3>Modern UI/UX</h3>
+                        <p>Clean, luxury-focused design with smooth animations, intuitive navigation, and a premium shopping experience.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                        <h3>Fast Deployment</h3>
+                        <p>Deployed on Vercel with global CDN, instant builds, and automatic deployments from repository changes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Categories -->
+        <section id="categories" class="categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Product Categories</h2>
+                    <p>Full range of clothing and accessories offered</p>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        <h3>Women's Wear</h3>
+                        <p>Sarees, kurtis, lehengas, western wear, and ethnic collections</p>
+                    </div>
+                    <div class="category-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <h3>Men's Wear</h3>
+                        <p>Shirts, trousers, suits, traditional wear, and casual collections</p>
+                    </div>
+                    <div class="category-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                        <h3>Kids Wear</h3>
+                        <p>Comfortable and stylish clothing for children of all ages</p>
+                    </div>
+                    <div class="category-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                        <h3>School Uniforms</h3>
+                        <p>Durable, quality uniforms for schools across the region</p>
+                    </div>
+                    <div class="category-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <h3>Accessories</h3>
+                        <p>Bags, jewelry, dupattas, stoles, and complementary fashion items</p>
+                    </div>
+                    <div class="category-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <h3>Seasonal Collections</h3>
+                        <p>Festive specials, summer breezy, winter warm, and limited editions</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Website Sections -->
+        <section id="sections">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Website Sections</h2>
+                    <p>Content structure designed for conversion</p>
+                </div>
+                <div class="sections-list">
+                    <div class="section-row">
+                        <span class="num">1</span>
+                        <div><h3>Hero / Landing</h3><p>Eye-catching hero banner with brand name, tagline, featured collection, and primary call-to-action for shopping or WhatsApp inquiry.</p></div>
+                    </div>
+                    <div class="section-row">
+                        <span class="num">2</span>
+                        <div><h3>Featured Collections</h3><p>Curated showcase of trending and seasonal collections with high-quality product imagery and direct links to categories.</p></div>
+                    </div>
+                    <div class="section-row">
+                        <span class="num">3</span>
+                        <div><h3>Product Catalog</h3><p>Organized product grid with category filtering, product cards with images, prices, and quick-order via WhatsApp.</p></div>
+                    </div>
+                    <div class="section-row">
+                        <span class="num">4</span>
+                        <div><h3>About / Brand Story</h3><p>Brand story, mission, and values — building trust with customers through authentic storytelling.</p></div>
+                    </div>
+                    <div class="section-row">
+                        <span class="num">5</span>
+                        <div><h3>Contact / WhatsApp</h3><p>Contact information, location, and prominent WhatsApp button for instant ordering and inquiries.</p></div>
+                    </div>
+                    <div class="section-row">
+                        <span class="num">6</span>
+                        <div><h3>Footer</h3><p>Quick links, social media, copyright, and secondary navigation for complete site access.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section id="tech-stack" class="tech-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Tech Stack</h2>
+                    <p>Modern, performant web technologies</p>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#61dafb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg><p>React</p><span>UI Framework</span></div>
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg><p>Vercel</p><span>Hosting & Deploy</span></div>
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg><p>JavaScript</p><span>Language</span></div>
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><p>WhatsApp API</p><span>Order Integration</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2>FAQ</h2>
+                    <p>Questions about this client project</p>
+                </div>
+                <div class="faq-container" id="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>What is Divya Atelier?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>Divya Atelier is a premium clothing showroom offering a wide range of clothing — women's wear (sarees, kurtis, lehengas), men's wear (shirts, suits, traditional), kids wear, school uniforms, accessories, and seasonal collections.</p>
+                        </div></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>How does WhatsApp ordering work?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>Customers can browse products on the website and tap the WhatsApp button to directly message the showroom with their product selection. This enables instant ordering, size inquiries, and personalized assistance without needing a complex cart/checkout system.</p>
+                        </div></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>What product categories are available?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>The platform covers 6 main categories: Women's Wear, Men's Wear, Kids Wear, School Uniforms, Accessories, and Seasonal Collections. Each category has multiple sub-categories with detailed product listings.</p>
+                        </div></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>Is this a live production project?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>Yes. This is a live production project deployed at divya-drab-beta.vercel.app. It is actively used by the client to showcase their clothing catalog and receive orders via WhatsApp.</p>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Interactive Guide for the Divya Atelier Project</p>
+            <p style="margin-top:0.5rem;font-size:0.75rem;color:var(--gray-500);">Built with care by <a href="https://github.com/sumanth-ds" target="_blank" rel="noopener noreferrer">sumanth-ds</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('.mobile-toggle').addEventListener('click', function () {
+                const menu = document.getElementById('mobile-menu');
+                const active = menu.classList.toggle('active');
+                this.setAttribute('aria-expanded', active);
+            });
+            document.getElementById('mobile-menu').querySelectorAll('a').forEach(a => a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('active')));
+            document.getElementById('faq-container').addEventListener('click', e => {
+                const item = e.target.closest('.faq-item');
+                if (item) item.classList.toggle('card');
+            });
+        });
+    </script>
+</body>
+</html>

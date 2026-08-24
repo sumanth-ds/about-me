@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rathnam Portfolio – Client Portfolio Creation</title>
+    <meta name="description" content="Professional portfolio website for Mr. Mutukuru Rathnam, one of India's Top 100 Competitive English Faculties.">
+    <link rel="icon" href="pic.png" sizes="64x64" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #8b4dff; --color-primary-hover: #7c2dff; --color-primary-light: #f5f0ff;
+            --gray-50: #fafafa; --gray-100: #f4f4f5; --gray-200: #e4e4e7; --gray-300: #d4d4d8;
+            --gray-400: #a1a1aa; --gray-500: #71717a; --gray-600: #52525b; --gray-700: #3f3f46;
+            --gray-800: #27272a; --gray-900: #18181b;
+            --color-surface: #fff; --color-bg: var(--gray-50); --color-text: var(--gray-800);
+            --color-text-secondary: var(--gray-500); --color-border: var(--gray-200);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --duration-fast: 150ms; --duration-normal: 250ms;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); font-size: 1rem; line-height: 1.6; color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        .skip-link { position: absolute; top: -100%; left: 1rem; background: var(--color-primary); color: #fff; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; z-index: 10000; }
+        .skip-link:focus { top: 1rem; }
+        :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        section { padding: 3rem 0; }
+
+        header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--color-border); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+        .logo { font-size: 1.125rem; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .logo svg { width: 20px; height: 20px; }
+        .nav-links { display: none; gap: 0.25rem; }
+        .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--color-text-secondary); padding: 0.5rem 0.75rem; border-radius: var(--radius-md); transition: all var(--duration-fast); }
+        .nav-links a:hover { color: var(--color-primary); background: var(--color-primary-light); }
+        .mobile-toggle { display: flex; background: none; border: none; cursor: pointer; padding: 0.5rem; color: var(--color-text); }
+        .mobile-toggle svg { width: 24px; height: 24px; }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-lg); padding: 0.5rem; }
+        .mobile-menu.active { display: block; }
+        .mobile-menu a { display: block; padding: 0.75rem 1rem; font-size: 0.875rem; font-weight: 500; color: var(--color-text-secondary); border-radius: var(--radius-md); }
+        .mobile-menu a:hover { background: var(--color-primary-light); color: var(--color-primary); }
+        @media (min-width: 768px) { .nav-links { display: flex; } .mobile-toggle { display: none; } }
+
+        .hero { background: var(--color-surface); text-align: center; padding: 3rem 0 4rem; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1px; color: var(--gray-900); }
+        .hero h1 .accent { color: var(--color-primary); }
+        .hero > .container > p { margin: 1rem auto 0; max-width: 700px; color: var(--color-text-secondary); font-size: clamp(1rem, 2vw, 1.125rem); }
+        .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 2rem; }
+        .hero-tech { margin-top: 1.5rem; font-size: 0.8125rem; color: var(--gray-400); }
+        .live-badge { display: inline-flex; align-items: center; gap: 0.375rem; background: #dcfce7; color: #166534; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); margin-bottom: 1rem; }
+        .live-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; font-size: 0.875rem; font-weight: 600; font-family: var(--font-sans); border-radius: var(--radius-full); border: none; cursor: pointer; transition: all var(--duration-normal) var(--ease-out); text-decoration: none; }
+        .btn svg { width: 16px; height: 16px; }
+        .btn-primary { background: var(--color-primary); color: #fff; box-shadow: 0 4px 12px rgba(139,77,255,0.25); }
+        .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
+        .btn-secondary { background: var(--gray-700); color: #fff; }
+        .btn-secondary:hover { background: var(--gray-800); transform: translateY(-2px); }
+        .btn-outline { background: transparent; color: var(--color-text); border: 1.5px solid var(--color-border); }
+        .btn-outline:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+        .section-header { text-align: center; margin-bottom: 2.5rem; }
+        .section-header h2 { font-size: clamp(1.375rem, 3vw, 1.75rem); font-weight: 800; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .section-header p { color: var(--color-text-secondary); max-width: 560px; margin: 0 auto; font-size: 0.9375rem; }
+
+        .features-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .feature-card { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 2rem; text-align: center; transition: all var(--duration-normal) var(--ease-out); }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+        .feature-card svg { width: 36px; height: 36px; color: var(--color-primary); margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .feature-card p { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.7; }
+        @media (min-width: 640px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .features-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .preview-section { background: var(--gray-50); }
+        .preview-frame { max-width: 900px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-xl); border: 1px solid var(--color-border); background: var(--color-surface); }
+        .preview-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: var(--gray-100); border-bottom: 1px solid var(--color-border); }
+        .preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .preview-dot:nth-child(1) { background: #ef4444; }
+        .preview-dot:nth-child(2) { background: #eab308; }
+        .preview-dot:nth-child(3) { background: #22c55e; }
+        .preview-url { flex: 1; margin-left: 0.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.375rem 0.75rem; font-size: 0.75rem; color: var(--gray-500); font-family: var(--font-mono); }
+        .preview-body { padding: 2rem; text-align: center; }
+        .preview-body img { max-width: 100%; border-radius: var(--radius-md); }
+
+        .sections-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+        .section-card { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 1.5rem; border: 1px solid var(--color-border); display: flex; gap: 1rem; align-items: flex-start; }
+        .section-card .icon-wrap { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--color-primary-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .section-card .icon-wrap svg { width: 20px; height: 20px; color: var(--color-primary); }
+        .section-card h3 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.25rem; }
+        .section-card p { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6; }
+        @media (min-width: 768px) { .sections-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .awards-section { background: var(--color-surface); }
+        .awards-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+        .award-card { background: var(--gray-50); border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--color-border); }
+        .award-card h3 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem; }
+        .award-card p { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6; }
+        @media (min-width: 768px) { .awards-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .tech-section { background: var(--gray-50); }
+        .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 600px; margin: 0 auto; text-align: center; }
+        .tech-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+        .tech-item svg { width: 36px; height: 36px; }
+        .tech-item p { font-weight: 600; font-size: 0.8125rem; }
+        .tech-item span { font-size: 0.6875rem; color: var(--gray-400); }
+        @media (min-width: 768px) { .tech-grid { grid-template-columns: repeat(4, 1fr); max-width: 100%; } }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--color-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 0.75rem; cursor: pointer; border: 1px solid var(--color-border); }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; }
+        .faq-question h3 { font-size: 0.9375rem; font-weight: 600; }
+        .faq-icon { color: var(--gray-400); transition: transform var(--duration-normal); }
+        .faq-icon svg { width: 16px; height: 16px; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease-out); }
+        .faq-item.active .faq-answer { max-height: 500px; }
+        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: var(--color-text-secondary); font-size: 0.875rem; line-height: 1.7; }
+        .faq-answer-inner li { margin-bottom: 0.5rem; padding-left: 1rem; position: relative; }
+        .faq-answer-inner li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--color-primary); }
+
+        footer { background: var(--gray-900); color: var(--gray-400); padding: 3rem 0 1.5rem; text-align: center; font-size: 0.8125rem; }
+        footer a { color: var(--gray-300); } footer a:hover { color: #fff; }
+
+        @media (max-width: 480px) { .hero-actions .btn { width: 100%; max-width: 280px; justify-content: center; } }
+    </style>
+</head>
+
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="container">
+            <nav aria-label="Main navigation">
+                <a href="index.html" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    Back to Portfolio
+                </a>
+                <ul class="nav-links" role="list">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#sections">Sections</a></li>
+                    <li><a href="#awards">Awards</a></li>
+                    <li><a href="#tech-stack">Tech Stack</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <button class="mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </nav>
+            <div class="mobile-menu" id="mobile-menu" role="navigation">
+                <a href="#overview">Overview</a>
+                <a href="#sections">Sections</a>
+                <a href="#awards">Awards</a>
+                <a href="#tech-stack">Tech Stack</a>
+                <a href="#faq">FAQ</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <span class="live-badge"><span class="dot"></span> Live Project</span>
+                <h1><span class="accent">Rathnam</span><br>Client Portfolio Website</h1>
+                <p>A professional portfolio website for Mr. Mutukuru Rathnam — one of India's Top 100 Competitive English Faculties. Built as a real-time client project featuring a modern single-page design with smooth scrolling, responsive layout, and contact form integration.</p>
+                <div class="hero-actions">
+                    <a href="https://rathnam.vercel.app/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        Live Website
+                    </a>
+                    <a href="https://github.com/sumanth-ds" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        Source Code
+                    </a>
+                </div>
+                <p class="hero-tech">React · Vercel · Responsive Design · Single-Page Application</p>
+            </div>
+        </section>
+
+        <!-- Preview -->
+        <section id="overview" class="preview-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Live Preview</h2>
+                    <p>Visit the live website to see the full experience</p>
+                </div>
+                <div class="preview-frame">
+                    <div class="preview-bar">
+                        <span class="preview-dot"></span>
+                        <span class="preview-dot"></span>
+                        <span class="preview-dot"></span>
+                        <span class="preview-url">https://rathnam.vercel.app/</span>
+                    </div>
+                    <div class="preview-body" style="padding:3rem 2rem;background:linear-gradient(135deg,#f8f7ff 0%,#f0edff 100%);">
+                        <h2 style="font-size:1.5rem;font-weight:800;color:var(--gray-900);margin-bottom:0.75rem;">Mr. Mutukuru Rathnam</h2>
+                        <p style="color:var(--color-text-secondary);max-width:500px;margin:0 auto 1.5rem;font-size:0.9375rem;">The youngest among the top 100 most effective Competitive English teaching faculties across India.</p>
+                        <a href="https://rathnam.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            Open Live Site
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Project Highlights</h2>
+                    <p>What makes this portfolio website effective</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        <h3>Responsive Design</h3>
+                        <p>Fully responsive across all devices — mobile, tablet, and desktop. Optimized for every screen size with fluid layouts and adaptive typography.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        <h3>Single-Page Navigation</h3>
+                        <p>Smooth scroll-based navigation between sections — Home, About, Awards, Gallery, Highlights, and Contact — with a sticky navbar.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <h3>Contact Form Integration</h3>
+                        <p>Built-in contact form for inquiries, collaborations, and speaking engagements with email delivery.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <h3>Image Gallery</h3>
+                        <p>Curated photo gallery showcasing teaching moments, award ceremonies, student interactions, and public speaking events.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        <h3>News & Media Features</h3>
+                        <p>Highlights section featuring newspaper articles from Deccan Chronicle, Hasiru Kranti, and Sakshi with organized media coverage.</p>
+                    </div>
+                    <div class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <h3>Awards Showcase</h3>
+                        <p>Dedicated awards section highlighting National Ethics Award, Dr. APJ Abdul Kalam Award, and Rashtriya Naithika Samman with descriptions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Website Sections -->
+        <section id="sections" class="awards-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Website Sections</h2>
+                    <p>Content structure designed for maximum impact</p>
+                </div>
+                <div class="sections-grid">
+                    <div class="section-card">
+                        <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
+                        <div><h3>Home / Hero</h3><p>Inspirational headline "From Nothing to Something" with portrait, tagline, and call-to-action to discover the journey.</p></div>
+                    </div>
+                    <div class="section-card">
+                        <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                        <div><h3>About / Journey</h3><p>Story of overcoming poverty, mentorship from Sri B. Ramana Reddy, and rise to becoming a top-100 national English trainer.</p></div>
+                    </div>
+                    <div class="section-card">
+                        <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                        <div><h3>Awards</h3><p>Three national-level awards with images and descriptions — Dr. Radhakrishnan, Dr. APJ Abdul Kalam, and Rashtriya Naithika Samman.</p></div>
+                    </div>
+                    <div class="section-card">
+                        <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></div>
+                        <div><h3>Gallery</h3><p>8 curated photos — classroom teaching, student interactions, award ceremonies, and public speaking moments.</p></div>
+                    </div>
+                    <div class="section-card">
+                        <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                        <div><h3>News & Highlights</h3><p>Press coverage from Deccan Chronicle (national), Hasiru Kranti (Kannada), and Sakshi (Telugu) newspapers.</p></div>
+                    </div>
+                    <div class="section-card">
+                        <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
+                        <div><h3>Contact</h3><p>Location (Kadapa, AP), email, phone, and a message form for inquiries and collaborations.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Awards -->
+        <section id="awards">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Awards Featured</h2>
+                    <p>National recognition showcased on the website</p>
+                </div>
+                <div class="awards-grid">
+                    <div class="award-card">
+                        <h3>Dr. S. Radhakrishnan Visionary Mentor Award</h3>
+                        <p>In recognition of exemplary mentorship, dedicated guidance, and lasting contributions to education, inspiring learners while upholding the visionary legacy of Dr. Sarvepalli Radhakrishnan.</p>
+                    </div>
+                    <div class="award-card">
+                        <h3>Rashtriya Naithika Samman 2025</h3>
+                        <p>Awarded for exceptional teaching skills and services to competitive exam aspirants across multiple states.</p>
+                    </div>
+                    <div class="award-card">
+                        <h3>Dr. APJ Abdul Kalam National Excellence Award 2025</h3>
+                        <p>For inspiring youth through teaching and embodying the spirit of Dr. Kalam's vision for education and empowerment.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section id="tech-stack" class="tech-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Tech Stack</h2>
+                    <p>Modern, performant web technologies</p>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#61dafb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg><p>React</p><span>UI Framework</span></div>
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg><p>Vercel</p><span>Hosting & Deploy</span></div>
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg><p>JavaScript</p><span>Language</span></div>
+                    <div class="tech-item"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#264de4" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg><p>CSS3</p><span>Styling</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2>FAQ</h2>
+                    <p>Questions about this client project</p>
+                </div>
+                <div class="faq-container" id="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>Who is Mr. Mutukuru Rathnam?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>Mr. Muthukuru Rathnam is one of the top 100 most effective Competitive English teaching faculties in India. Born in poverty in Kadapa district, Andhra Pradesh, he overcame immense challenges to become a marvellous mentor to thousands of students across AP, Telangana, Tamil Nadu, Karnataka, Delhi, and Mumbai.</p>
+                        </div></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>What was the client requirement?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>The client needed a professional portfolio website to showcase his teaching journey, awards, media coverage, and provide a way for students, collaborators, and event organizers to reach him. The site had to be mobile-friendly, fast, and easy to maintain.</p>
+                        </div></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>What technologies were used?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>The website is built with React and deployed on Vercel for fast, global CDN delivery. It features responsive CSS, smooth scroll navigation, and a contact form with email integration.</p>
+                        </div></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question"><h3>Is this a live production project?</h3><span class="faq-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span></div>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>Yes. This is a live production project deployed at rathnam.vercel.app. It is actively used by the client to share his profile, achievements, and contact information with students and event organizers.</p>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Interactive Guide for the Rathnam Portfolio Project</p>
+            <p style="margin-top:0.5rem;font-size:0.75rem;color:var(--gray-500);">Built with care by <a href="https://github.com/sumanth-ds" target="_blank" rel="noopener noreferrer">sumanth-ds</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('.mobile-toggle').addEventListener('click', function () {
+                const menu = document.getElementById('mobile-menu');
+                const active = menu.classList.toggle('active');
+                this.setAttribute('aria-expanded', active);
+            });
+            document.getElementById('mobile-menu').querySelectorAll('a').forEach(a => a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('active')));
+            document.getElementById('faq-container').addEventListener('click', e => {
+                const item = e.target.closest('.faq-item');
+                if (item) item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
